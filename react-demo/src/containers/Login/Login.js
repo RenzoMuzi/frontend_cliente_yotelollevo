@@ -50,40 +50,46 @@ class Login extends Component {
 
         return(
             <Aux>
-              <h1>Ingresar</h1>
-              <form onSubmit={(e) => this.submitLoginHandler(e)}>
-                <label>Email de Usuario</label>
-                <br></br>
-                <input 
-                    name="emailUsuario"
-                    placeholder="email" 
-                    type="email"
-                    onChange={(e) => this.changeInputHandler(e)}
-                />
-                <br></br>
-                <label>Clave de Usuario</label>
-                <br></br>
-                <input 
-                    name="claveUsuario"
-                    placeholder="clave"
-                    type="password"
-                    onChange={(e) => this.changeInputHandler(e)}
-                />
-                <br></br>
-                <button type="submit" onClick={(e) => this.submitLoginHandler(e)}>Ingresar</button>
-                <a href='/signup'>Registrarse</a>
-              </form> 
-                { /*
-                    <FacebookLogin
-                    appId="1088597931155576"
-                    autoLoad={true}
-                    fields="name,email,picture"
-                    onClick={componentClicked}
-                    callback={responseFacebook}
-                />
-                <Registrarse />
-                */ }
-                
+            <div className="loginsignupWrapper">
+              <div className="centered loginsignupContainer">
+                <h1>Ingresar</h1>
+                  <form onSubmit={(e) => this.submitLoginHandler(e)}>
+                    <label>Email de Usuario</label>
+                    <br></br>
+                    <input 
+                        name="emailUsuario"
+                        placeholder="email" 
+                        type="email"
+                        onChange={(e) => this.changeInputHandler(e)}
+                    />
+                    <br></br>
+                    <label>Clave de Usuario</label>
+                    <br></br>
+                    <input 
+                        name="claveUsuario"
+                        placeholder="clave"
+                        type="password"
+                        onChange={(e) => this.changeInputHandler(e)}
+                    />
+                    <br></br>
+                    <button type="submit" onClick={(e) => this.submitLoginHandler(e)}>Ingresar</button>
+                    <a href='/signup'>Registrarse</a>
+                  </form> 
+                    { /*
+                        <FacebookLogin
+                        appId="1088597931155576"
+                        autoLoad={true}
+                        fields="name,email,picture"
+                        onClick={componentClicked}
+                        callback={responseFacebook}
+                    />
+                    <Registrarse />
+                    */ }
+                    
+              </div>
+            </div>
+            
+             
             </Aux>
         )
     }

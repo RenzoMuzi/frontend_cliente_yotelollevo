@@ -1,0 +1,26 @@
+.loginsignupWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.loginsignupContainer {
+    min-width: 200px;
+    height: 300px;
+}
+
+.loginsignupContainer input {
+    width: 100%;
+    border-radius: 3px;
+    border: 1px solid gray;
+    outline: none !important;
+}
+
+.loginsignupContainer h1 {
+    text-align: center;
+}
+
+.loginsignupContainer a {
+    font-size: 0.7rem;
+}

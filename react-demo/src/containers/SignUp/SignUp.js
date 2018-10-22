@@ -52,9 +52,11 @@ class SignUp extends Component {
 
         return(
             <Aux>
-              <h1>Registrarse</h1>
+              <div className="loginsignupWrapper">
+                  <div className="centered loginsignupContainer">
+                  <h1>Registrarse</h1>
               <form onSubmit={(e) => this.submitLoginHandler(e)}>
-                <label>Email de Usuario</label>
+                <label>Nombre de Usuario</label>
                 <br></br>
                 <input 
                     name="nombreUsuario"
@@ -62,6 +64,8 @@ class SignUp extends Component {
                     type="text"
                     onChange={(e) => this.changeInputHandler(e)}
                 />
+                <br></br>
+                <label>Email de Usuario</label>
                 <br></br>
                 <input 
                     name="emailUsuario"
@@ -93,6 +97,9 @@ class SignUp extends Component {
                 <Registrarse />
                 */ }
                 
+                  </div>
+              </div>
+              
             </Aux>
         )
     }
