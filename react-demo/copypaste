@@ -1,0 +1,33 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using BusinessLayer.Clients.Interfaces;
+using Unity;
+using DataAccessLayer;
+using Shared;
+
+
+namespace BusinessLayer.Clients.Controllers
+{
+    public class Perfil : IPerfil
+    {
+        //esto tiene que ir en la capa de arriba que istncia a esta
+        //unity dependency injection 
+        //var container = new UnityContainer();
+        //container.RegisterType<DataAccessLayer.IDataAccessLayer, DataAccessLayer.Controlador>();
+
+        private readonly IDataAccessLayer accesDB_;
+
+        public Perfil(IDataAccessLayer accesDB)
+        {
+            this.accesDB_ = accesDB;
+        }
+
+        public bool RegistrarCliente(Cliente cliente) => (accesDB_.ExisteCliente(cliente.Email) ? false : accesDB_.AgregarCliente(cliente));
+
+        public bool IniciarSesion(string email, string clave) => (accesDB_.ExisteCliente(email) ? (email == accesDB_.VerCliente(email).Email) : false);
+       
+    }
+}

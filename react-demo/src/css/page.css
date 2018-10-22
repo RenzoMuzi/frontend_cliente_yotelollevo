@@ -1,0 +1,6 @@
+.mainHeader {
+    background-color: tomato;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+}

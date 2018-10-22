@@ -1,0 +1,58 @@
+.cards {
+    padding: 5px;
+    background-color: #f1f1f1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    flex: 1 0 500px;
+    margin: 30px;
+    max-width: 270px;
+}
+
+.card-content h2 {
+    font-size: 1.1rem;
+}
+
+.card-content p {
+    color: grey;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.review {
+    float: left;
+}
+
+.reviewer {
+    border-radius: 50%;
+    min-width: 35px;
+    min-height: 35px;
+    float: right;
+    margin-top: 10px;
+    overflow: hidden;
+    background-image: url(~/src/assets/persona.jpg);
+    background-size: cover;
+}
+
+@media screen and (min-width: 640px) {
+    .cards {
+        display: flex;
+    }
+    .card {
+        flex: 0 1 24%;
+    }
+}
+
+@media screen and (min-width: 1100px) {
+    .card {
+        flex: 0 1 19%;
+    }
+    .reviewer {
+        min-width: 50px;
+        min-height: 50px;
+    }
+}
