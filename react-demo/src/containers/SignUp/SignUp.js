@@ -1,7 +1,7 @@
-import React, { PureComponent, Component } from 'react'
+import React, { Component } from 'react'
 import Aux from '../../hoc/Auxiliar'
 import postData from '../../services/api/api'
-import {Redirect} from 'react-router-dom'
+import {Redirect, Link} from 'react-router-dom'
 import FacebookLogin from 'react-facebook-login'
 
 class SignUp extends Component {
@@ -9,7 +9,6 @@ class SignUp extends Component {
         nombreUsuario: '',
         emailUsuario: '',
         claveUsuario: '',
-        redirect: false
     }
 
     signUp = (emailUsuario,claveUsuario,nombreUsuario) => {
@@ -84,18 +83,8 @@ class SignUp extends Component {
                 />
                 <br></br>
                 <button type="submit" onClick={(e) => this.submitLoginHandler(e)}>Registrarse</button>
-                <a href='/login'>Ingresar</a>
+                <a onClick={(e) => this.props.mostrarRegistro(e)}>Ingresar</a>
               </form> 
-                { /*
-                    <FacebookLogin
-                    appId="1088597931155576"
-                    autoLoad={true}
-                    fields="name,email,picture"
-                    onClick={componentClicked}
-                    callback={responseFacebook}
-                />
-                <Registrarse />
-                */ }
                 
                   </div>
               </div>

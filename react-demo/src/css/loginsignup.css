@@ -3,11 +3,20 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background: url(~/src/assets/login-background.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+
+.loginsignupContainer, .imgLogin {
+    padding: 0px 50px;
 }
 
 .loginsignupContainer {
-    min-width: 200px;
-    height: 300px;
+    min-width: 300px;
 }
 
 .loginsignupContainer input {
@@ -15,6 +24,11 @@
     border-radius: 3px;
     border: 1px solid gray;
     outline: none !important;
+    line-height: 2.5;
+    padding-left: 5px;
+    border: none;
+    margin-bottom: 15px;
+    border: 0.5px solid #cfcdcd;
 }
 
 .loginsignupContainer h1 {
@@ -24,3 +38,9 @@
 .loginsignupContainer a {
     font-size: 0.7rem;
 }
+
+@media screen and (max-width: 750px) {
+    .imgLogin {
+      display: none;
+    }
+  }

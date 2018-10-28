@@ -1,19 +1,33 @@
 import React, { PureComponent, Component } from 'react'
 import Aux from '../../hoc/Auxiliar'
 import postData from '../../services/api/api'
-import {Redirect} from 'react-router-dom'
+import {Redirect, Link} from 'react-router-dom'
 import FacebookLogin from 'react-facebook-login'
+import Signup from '../SignUp/SignUp'
 
 class Login extends Component {
     state = {
         emailUsuario: '',
         claveUsuario: '',
-        redirect: false
+        redirect: false,
+        registrarse: false
     }
+
+    componentClicked = () => console.log('aprete el componente de fb');
+
+    responseFacebook = response => {
+      console.log(response);
+      if (response.hasOwnProperty('email')) {
+        sessionStorage.setItem('infoUsuario', response);
+        this.setState({ redirect: true })
+      } else {
+        console.log("error al loguearse")
+      }
+    };
 
     login = (emailUsuario,claveUsuario) => {
       if ((emailUsuario !== '')&&(claveUsuario !== '')) {
-        postData('/posts', {
+        postData('/Client/IniciarSesion', {
           email: emailUsuario,
           clave: claveUsuario
         })
@@ -39,6 +53,10 @@ class Login extends Component {
       this.setState({ [e.target.name] : e.target.value })
     }
     
+    toggleRegistro = (e) => {
+      e.preventDefault();
+      this.setState( { registrarse : !this.state.registrarse });
+    }
 
     render(){
         if (this.state.redirect) {
@@ -50,8 +68,19 @@ class Login extends Component {
 
         return(
             <Aux>
-            <div className="loginsignupWrapper">
+            {
+              this.state.registrarse 
+            ?
+            <Aux>
+            <div className="loginsignupWrapper"> 
+              <div className="imgLogin">
+                <picture>
+                  <img src="src\assets\package.png" alt="Package" />
+                </picture>
+              </div>
+
               <div className="centered loginsignupContainer">
+                <Aux>
                 <h1>Ingresar</h1>
                   <form onSubmit={(e) => this.submitLoginHandler(e)}>
                     <label>Email de Usuario</label>
@@ -72,25 +101,34 @@ class Login extends Component {
                         onChange={(e) => this.changeInputHandler(e)}
                     />
                     <br></br>
-                    <button type="submit" onClick={(e) => this.submitLoginHandler(e)}>Ingresar</button>
-                    <a href='/signup'>Registrarse</a>
-                  </form> 
-                    { /*
-                        <FacebookLogin
-                        appId="1088597931155576"
-                        autoLoad={true}
-                        fields="name,email,picture"
-                        onClick={componentClicked}
-                        callback={responseFacebook}
-                    />
-                    <Registrarse />
-                    */ }
+                    <button type="submit" className="button" onClick={(e) => this.submitLoginHandler(e)}>Ingresar</button>
                     
+                  </form> 
+                  <br></br>
+                  <FacebookLogin
+                    appId="1829109587138442"
+                    autoLoad={true}
+                    fields="name,email,picture"
+                    onClick={this.componentClicked}
+                    callback={this.responseFacebook}
+                    textButton="Ingresar con Facebook"
+                  />
+                  <a onClick={(e) => this.props.mostrarRegistro(e)}>Registrase</a>
+                </Aux>
+             
               </div>
             </div>
             
              
             </Aux>
+            :
+              <Signup 
+                mostrarRegistro={this.toggleRegistro}
+              />
+            } 
+            </Aux>
+              
+           
         )
     }
 }

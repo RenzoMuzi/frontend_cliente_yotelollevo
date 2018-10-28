@@ -1,0 +1,30 @@
+.button,
+.kep-login-facebook.metro {
+    border-radius: 5px !important;
+    font-size: 0.6rem;
+    width: 100%;
+    font-family: 'Comfortaa', Arial, sans-serif;
+    font-weight: 700;
+    padding: calc(.34435vw + 13.38843px) calc(.34435vw + 18.38843px);
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+    color: white;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.button {
+    background-color: var(--button-color-main);
+}
+
+.button:hover,
+.kep-login-facebook.metro:hover {
+    opacity: 1;
+    box-shadow: 5px 5px 18px #888888;
+
+}
+
+.button:active,
+.kep-login-facebook.metro:active {
+}
