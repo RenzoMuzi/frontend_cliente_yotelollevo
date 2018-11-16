@@ -6,9 +6,9 @@ const axioPost =axios.create({
     method: 'post',
 });
 
-const postData = (type, userData) => {
+const postData = (api_url, userData) => {
     return new Promise((resolve, reject) =>{   
-        axioPost(type, {data: userData})
+        axioPost(api_url, {data: userData})
           .then((response) => {
             resolve(response);
           })

@@ -11,16 +11,16 @@ class SignUp extends Component {
         claveUsuario: '',
     }
 
-    signUp = (emailUsuario,claveUsuario,nombreUsuario) => {
+    signUp = (nombreUsuario, emailUsuario, claveUsuario,) => {
       if ((emailUsuario !== '')&&(claveUsuario !== '')&&(nombreUsuario)) {
-        postData('/posts', {       ///aca cambiar el /post por algo asi como /signin
+        postData('/Client/RegistrarCliente', {       ///aca cambiar el /post por algo asi como /signin
           nombre: nombreUsuario,
           email: emailUsuario,
           clave: claveUsuario
         })
         .then((res) => {
           console.log(res.data)
-          if (res.status === 201) {
+          if (res.status === 200) {
             sessionStorage.setItem('infoUsuario', res.data);
             this.setState({ redirect: true })
           } else {
@@ -48,12 +48,10 @@ class SignUp extends Component {
         if (sessionStorage.getItem('infoUsuario')) {
           return <Redirect to={'/homecliente'} /> 
         }
-
+ 
         return(
             <Aux>
-              <div className="loginsignupWrapper">
-                  <div className="centered loginsignupContainer">
-                  <h1>Registrarse</h1>
+              <h1>Registrarse</h1>
               <form onSubmit={(e) => this.submitLoginHandler(e)}>
                 <label>Nombre de Usuario</label>
                 <br></br>
@@ -82,13 +80,9 @@ class SignUp extends Component {
                     onChange={(e) => this.changeInputHandler(e)}
                 />
                 <br></br>
-                <button type="submit" onClick={(e) => this.submitLoginHandler(e)}>Registrarse</button>
+                <button type="submit" className="button" onClick={(e) => this.submitLoginHandler(e)}>Registrarse</button>
                 <a onClick={(e) => this.props.mostrarRegistro(e)}>Ingresar</a>
-              </form> 
-                
-                  </div>
-              </div>
-              
+              </form>  
             </Aux>
         )
     }
