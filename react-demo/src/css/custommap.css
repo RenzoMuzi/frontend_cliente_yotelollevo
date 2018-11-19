@@ -1,0 +1,7 @@
+.customGoogleMap {
+  display: block;
+  min-height: 500px;
+  min-width: 280px; 
+  position: relative;
+  flex-grow: 3
+}

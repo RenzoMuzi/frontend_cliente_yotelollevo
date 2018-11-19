@@ -29,11 +29,11 @@ class HomeCliente extends Component {
 		}
 
 		return (
-			<Aux>
+			<div className="homeClientWrapper">
 				<h1>Soy Home Cliente</h1>
 				<GeoSuggestSearch />
 				<button type='button' onClick={this.logout}>Salir</button>
-			</Aux>
+			</div>
 		)
 	}
 }

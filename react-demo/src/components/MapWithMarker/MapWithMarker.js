@@ -7,9 +7,16 @@ const MapWithAMarker = withGoogleMap(props =>
     center={props.address}
     zoom={props.zoom}
     onClick={props.onClick}
+    noRedraw={false}
   >
     <Marker
       position={props.address}
+      
+    />
+
+    <Marker
+      position={{lat: -34.9097917 , lng: -34.9097917}}
+      noRedraw={true}
     />
   </GoogleMap>
 );

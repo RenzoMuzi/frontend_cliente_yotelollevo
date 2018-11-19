@@ -1,0 +1,47 @@
+.homeClientWrapper {
+  margin: 0 auto;
+  max-width: 90%;
+}
+
+.clientContentContainer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.geosuggest {
+  position: relative;
+  flex-grow: 1;
+  min-width: 230px;
+  padding: 10px;
+}
+
+.geosuggest__input {
+  width: 100%;
+  border-radius: 3px;
+  border: 1px solid gray;
+  outline: none !important;
+  line-height: 2.5;
+  padding-left: 5px;
+  border: none;
+  border: 0.5px solid #cfcdcd;
+}
+
+.geosuggest__suggests {
+  padding: 0px;
+  margin: 0px;
+  color: #8090a6
+}
+
+.geosuggest__item {
+  padding: 3px 5px;
+  border-bottom: 0.5px solid #cfcdcd
+}
+
+.geosuggest__suggests-wrapper {
+  position: absolute;
+  z-index: 2;
+  background-color: #d9f2f6d4;
+  font-size: 0.7rem;
+  border-radius: 5px;
+  margin-right: 10px;
+}
