@@ -57,12 +57,19 @@ class GeoSuggestSearch extends Component {
     console.log(this.state.address.lat, this.state.address.lng);
     return (
       <div className="clientContentContainer">
-        <Geosuggest
-          placeholder="Ingresa la direccion de envio"
-          onSuggestSelect={this.onSuggestSelect}
-          location={new google.maps.LatLng(53.558572, 9.9278215)}
-          radius="20"
-        />
+        <div className="homeClientLefAside">
+          <Geosuggest
+            placeholder="Ingresa la direccion de envio"
+            onSuggestSelect={this.onSuggestSelect}
+            location={new google.maps.LatLng(53.558572, 9.9278215)}
+            radius="20"
+          />
+
+          <div>
+            donde desea comprar?
+          </div>
+        </div>
+        
 
         <div className="customGoogleMap">
           <MapContainer

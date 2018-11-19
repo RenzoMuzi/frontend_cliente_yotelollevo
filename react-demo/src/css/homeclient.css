@@ -8,12 +8,15 @@
   flex-wrap: wrap;
 }
 
-.geosuggest {
+.homeClientLefAside {
   position: relative;
   flex-grow: 1;
   min-width: 230px;
   padding: 10px;
 }
+/* .geosuggest {
+ 
+} */
 
 .geosuggest__input {
   width: 100%;
