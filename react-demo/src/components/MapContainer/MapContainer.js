@@ -30,8 +30,7 @@ class MapContainer extends Component {
       <Map
         google={google}
         zoom={14}
-        // onReady={this.fetchPlaces}
-        initialCenter={this.props.initialCenter}
+        center={this.props.address}
         onClick={(map, e) => this.onMapClicked(map, e)}
       >
 

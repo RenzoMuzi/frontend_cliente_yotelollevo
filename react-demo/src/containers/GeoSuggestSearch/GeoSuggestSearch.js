@@ -1,27 +1,44 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import Geosuggest from 'react-geosuggest';
 
-import MapContainer from '../../components/MapContainer/MapContainer'
-// import MapWithAMarker from '../../components/MapWithMarker/MapWithMarker'
+import MapContainer from '../../components/MapContainer/MapContainer';
 
 
 class GeoSuggestSearch extends Component {
 
   state = {
     initialCenter: {
-      lat: -34.9011127,
-      lng: -56.16453139999999
+      lat: 0,
+      lng: 0
     },
     address: {
       dir: "",
-      lat: -34.9011127,
-      lng: -56.16453139999999
+      lat: 0,
+      lng: 0
     },
     enterprices: [{ lat: -34.9150803, lng: -56.159808, name: "Empresa1" },
     { lat: -34.9087262, lng: -56.154915700000004, name: "Empresa2" },
     { lat: -34.9127992, lng: -56.16515129999999, name: "Empresa3" }
     ],
-    zoom: 15
+    zoom: 15,
+    isGeoLocationReady: false
+  }
+
+  componentDidMount() {
+    // this.getCurrentLocation();
+    // console.log(this.state.initialCenter);
+  }
+
+  getCurrentLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const  {latitude, longitude } = position.coords
+      this.setState({
+        initialCenter:{
+          lat: latitude,
+          lng:longitude
+        }
+      })
+    })
   }
 
   onSuggestSelect = (suggest) => {
@@ -54,7 +71,8 @@ class GeoSuggestSearch extends Component {
   }
 
   render() {
-    console.log(this.state.address.lat, this.state.address.lng);
+    const currentLocation = this.getCurrentLocation();
+    console.log(currentLocation);
     return (
       <div className="clientContentContainer">
         <div className="homeClientLefAside">
@@ -69,11 +87,10 @@ class GeoSuggestSearch extends Component {
             donde desea comprar?
           </div>
         </div>
-        
+
 
         <div className="customGoogleMap">
           <MapContainer
-            initialCenter={this.state.initialCenter}
             enterprices={this.state.enterprices}
             address={this.state.address}
           />
@@ -85,4 +102,4 @@ class GeoSuggestSearch extends Component {
   }
 }
 
-export default GeoSuggestSearch
+export default GeoSuggestSearch;
