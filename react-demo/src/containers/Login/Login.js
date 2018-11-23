@@ -16,7 +16,6 @@ class Login extends Component {
   componentClicked = () => console.log('aprete el componente de fb');
 
   responseFacebook = response => {
-    console.log(response);
     if (response.hasOwnProperty('email')) {
       sessionStorage.setItem('infoUsuario', JSON.stringify(response));
       //aca tengo que llamar a la api si esta, y si devuelve true bueno que entre

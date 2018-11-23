@@ -1,17 +1,13 @@
 import React, { Component } from 'react'
 import Geosuggest from 'react-geosuggest'
 
-import MapContainer from '../../components/MapContainer/MapContainer'
+import MapContainer from '../MapContainer/MapContainer'
 import { getData } from '../../services/api/api'
 import ListEmpresas from '../../components/ListEmpresas/ListEmpresas'
 
-class GeoSuggestSearch extends Component {
+class GeoLocationComponent extends Component {
 
   state = {
-    initialCenter: {
-      lat: 0,
-      lng: 0
-    },
     address: {
       dir: "",
       lat: 0,
@@ -106,8 +102,6 @@ class GeoSuggestSearch extends Component {
   }
 
   render() {
-    const currentLocation = this.getCurrentLocation();
-    console.log(currentLocation);
     return (
       <div className="clientContentContainer">
         <div className="homeClientLefAside">
@@ -134,11 +128,9 @@ class GeoSuggestSearch extends Component {
             address={this.state.address}
           />
         </div>
-
-
       </div>
     )
   }
 }
 
-export default GeoSuggestSearch;
+export default GeoLocationComponent;

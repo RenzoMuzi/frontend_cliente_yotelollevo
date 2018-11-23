@@ -2,16 +2,22 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import Aux from '../../hoc/Auxiliar'
 
-import GeoSuggestSearch from '../GeoSuggestSearch/GeoSuggestSearch'
+import GeoLocationComponent from '../GeoLocationComponent/GeoLocationComponent'
 
 class HomeCliente extends Component {
 	state = {
 		redirect: false,
+		emailCliente: "",
+		nombreCliente: ""
 	}
 
 	componentDidMount() {
 		if (sessionStorage.getItem('infoUsuario')) {
-			console.log(sessionStorage.getItem('infoUsuario'))
+			var infoUsuario = JSON.parse(sessionStorage.getItem('infoUsuario'));
+			this.setState({
+				emailCliente: infoUsuario.email,
+				nombreCliente: infoUsuario.name
+			})
 		} else {
 			this.setState({ redirect: true })
 		}
@@ -31,7 +37,7 @@ class HomeCliente extends Component {
 		return (
 			<div className="homeClientWrapper">
 				<h1>Soy Home Cliente</h1>
-				<GeoSuggestSearch />
+				<GeoLocationComponent />
 				<button type='button' onClick={this.logout}>Salir</button>
 			</div>
 		)

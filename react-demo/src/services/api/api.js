@@ -1,8 +1,7 @@
 import axios from 'axios'
-import React from 'react'
 
 const axioPost =axios.create({
-    baseURL: `${process.env.API_URL}`,
+    baseURL: `${process.env.API_CLIENTE}`,
     method: 'post',
 });
 
@@ -19,7 +18,7 @@ const postData = (api_url, data, config) => {
 }
 
 const axioGet =axios.create({
-    baseURL: `${process.env.API_URL}`,
+    baseURL: `${process.env.API_CLIENTE}`,
     method: 'get'
 });
 
