@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
-import Geosuggest from 'react-geosuggest';
+import React, { Component } from 'react'
+import Geosuggest from 'react-geosuggest'
 
-import MapContainer from '../../components/MapContainer/MapContainer';
-
+import MapContainer from '../../components/MapContainer/MapContainer'
+import { getData } from '../../services/api/api'
+import ListEmpresas from '../../components/ListEmpresas/ListEmpresas'
 
 class GeoSuggestSearch extends Component {
 
@@ -21,26 +22,60 @@ class GeoSuggestSearch extends Component {
     { lat: -34.9127992, lng: -56.16515129999999, name: "Empresa3" }
     ],
     zoom: 15,
-    isGeoLocationReady: false
+    rubroEmpresas: "",
+    paginasEmpresas: 0,
   }
 
   componentDidMount() {
-    // this.getCurrentLocation();
-    // console.log(this.state.initialCenter);
+    this.getCurrentLocation();
   }
 
   getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
-      const  {latitude, longitude } = position.coords
-      this.setState({
-        initialCenter:{
-          lat: latitude,
-          lng:longitude
-        }
-      })
+      const { latitude, longitude } = position.coords
+      this.setState(
+        {
+          address: {
+            lat: latitude,
+            lng: longitude
+          }
+        }, () => {
+          this.getEmpresas(this.state.rubroEmpresas, this.state.paginasEmpresas, this.state.address.lat, this.state.address.lng)
+        })
     })
   }
 
+  getEmpresas = (idRubro, pagina, lat, lng) => {
+    getData('/ObtenerEmpresasPorRubro/', {
+      params: {
+        idRubro: idRubro,
+        pagina: pagina,
+        lat: lat,
+        lng: lng
+      }
+    }).then(({ data }) => {
+      if (data.message == "Empresas Disponibles") {
+        this.setState({ enterprices: this.state.enterprices.concat(data.empresa) })
+      } else {
+        console.log("se ve que no hay ninguna empresa que envie en esa direccion");
+      }
+    }).catch(error => {
+      console.log(error, "se ve que no se pudo conectar con la api")
+    })
+
+    console.log(this.state.address, "holaa");
+  }
+
+  cargarMasEmpresas = () => {
+    this.setState({ paginasEmpresas: this.state.paginasEmpresas + 1 },
+      () => {
+        console.log(this.state.paginasEmpresas);
+
+        this.getEmpresas(this.state.rubroEmpresas, this.state.paginasEmpresas, this.state.address.lat, this.state.address.lng);
+      }
+    )
+  }
+ 
   onSuggestSelect = (suggest) => {
     if (suggest) {
       const { location: { lat, lng }, description } = suggest
@@ -86,6 +121,10 @@ class GeoSuggestSearch extends Component {
           <div>
             donde desea comprar?
           </div>
+          <ListEmpresas 
+            empresas={this.state.enterprices} 
+            verMasEmpresas={this.cargarMasEmpresas}
+          />
         </div>
 
 

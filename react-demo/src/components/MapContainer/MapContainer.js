@@ -32,6 +32,7 @@ class MapContainer extends Component {
         zoom={14}
         center={this.props.address}
         onClick={(map, e) => this.onMapClicked(map, e)}
+        centerAroundCurrentLocation={true}
       >
 
 

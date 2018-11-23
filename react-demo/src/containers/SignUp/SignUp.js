@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Aux from '../../hoc/Auxiliar'
-import postData from '../../services/api/api'
+import { postData } from '../../services/api/api'
 import {Redirect, Link} from 'react-router-dom'
 import FacebookLogin from 'react-facebook-login'
 
