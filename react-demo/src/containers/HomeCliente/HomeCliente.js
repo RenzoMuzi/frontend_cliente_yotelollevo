@@ -11,7 +11,7 @@ class HomeCliente extends Component {
 
 	componentDidMount() {
 		if (sessionStorage.getItem('infoUsuario')) {
-			console.log(sessionStorage.getItem('email'))
+			console.log(sessionStorage.getItem('infoUsuario'))
 		} else {
 			this.setState({ redirect: true })
 		}

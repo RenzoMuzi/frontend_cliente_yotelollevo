@@ -18,7 +18,7 @@ class Login extends Component {
   responseFacebook = response => {
     console.log(response);
     if (response.hasOwnProperty('email')) {
-      sessionStorage.setItem('infoUsuario', response);
+      sessionStorage.setItem('infoUsuario', JSON.stringify(response));
       //aca tengo que llamar a la api si esta, y si devuelve true bueno que entre
       this.setState({ redirect: true })
     } else {
@@ -35,7 +35,7 @@ class Login extends Component {
         .then((res) => {
           console.log(res.data)
           if (res.status === 200) {
-            sessionStorage.setItem('infoUsuario', res.data);
+            sessionStorage.setItem('infoUsuario', JSON.stringify(res.data));
             this.setState({ redirect: true })
           } else {
             console.log("error al loguearse")
@@ -104,7 +104,7 @@ class Login extends Component {
                 <br></br>
                 <FacebookLogin
                   appId="1829109587138442"
-                  autoLoad={true}
+                  autoLoad={false}
                   fields="name,email,picture"
                   onClick={this.componentClicked}
                   callback={this.responseFacebook}
