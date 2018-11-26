@@ -13,7 +13,7 @@ const ListEmpresas = ({empresas, irEmpresa, verMasEmpresas}) =>
         </li>
       ))} 
     </ul>
-    <button onClick={() => verMasEmpresas()}>Ver mas empresas</button>
+    <button className="button-normal" onClick={() => verMasEmpresas()}>Ver mas empresas</button>
   </div>
 )
 

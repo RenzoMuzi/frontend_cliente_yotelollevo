@@ -3,6 +3,7 @@
 @import './buttons.css';
 @import './custommap.css';
 @import './homeclient.css';
+@import './direcciones.css';
 
 :root {
     --button-color-main: #ff6a32ba;    

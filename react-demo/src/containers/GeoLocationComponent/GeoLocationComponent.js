@@ -216,7 +216,7 @@ class GeoLocationComponent extends Component {
             location={new google.maps.LatLng(53.558572, 9.9278215)}
             radius="20"
           />
-          <button onClick={this.closeModal}>close</button>
+          <button className="button-normal" onClick={this.closeModal}>close</button>
         </Modal>
 
         <div className="clientContentContainer">
