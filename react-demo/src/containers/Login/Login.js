@@ -1,6 +1,6 @@
 import React, { PureComponent, Component } from 'react'
 import Aux from '../../hoc/Auxiliar'
-import postData from '../../services/api/api'
+import axio from '../../services/api/api'
 import { Redirect, Link } from 'react-router-dom'
 import FacebookLogin from 'react-facebook-login'
 import Signup from '../SignUp/SignUp'
@@ -13,13 +13,32 @@ class Login extends Component {
     registrarse: false
   }
 
-  componentClicked = () => console.log('aprete el componente de fb');
+  componentDidMount = () => {
+    if (sessionStorage.getItem('infoUsuario')) {
+      this.setState({ redirect: true });
+    }
+  }
 
   responseFacebook = response => {
     if (response.hasOwnProperty('email')) {
-      sessionStorage.setItem('infoUsuario', JSON.stringify(response));
-      //aca tengo que llamar a la api si esta, y si devuelve true bueno que entre
-      this.setState({ redirect: true })
+      const datosUsuario = {
+        Email: response.email,
+        Nombre: response.name,
+        Foto: response.picture.data.url,
+        IdFacebook: response.userID
+      };
+      axio.post('IniciarSesionPorFacebook', datosUsuario)
+        .then((res) => {
+          if (res.data.status == 200) {
+            datosUsuario["Token"] = res.data.message;
+            sessionStorage.setItem('infoUsuario', JSON.stringify(datosUsuario));
+
+            if (sessionStorage.getItem('infoUsuario')) {
+              this.setState({ redirect: true });
+            }
+          }
+        })
+
     } else {
       console.log("error al loguearse")
     }
@@ -27,15 +46,21 @@ class Login extends Component {
 
   login = (emailUsuario, claveUsuario) => {
     if ((emailUsuario !== '') && (claveUsuario !== '')) {
-      postData('/Client/IniciarSesion', {
+      axio.post('IniciarSesion', {
         email: emailUsuario,
         clave: claveUsuario
       })
         .then((res) => {
-          console.log(res.data)
-          if (res.status === 200) {
-            sessionStorage.setItem('infoUsuario', JSON.stringify(res.data));
-            this.setState({ redirect: true })
+          if (res.status == 200) {
+            const infoUsuario = {
+              Email: emailUsuario,
+              Nombre: claveUsuario,
+              Token: res.data.message
+            } 
+            sessionStorage.setItem('infoUsuario', JSON.stringify(infoUsuario));
+            if (sessionStorage.getItem('infoUsuario')) {
+              this.setState({ redirect: true })
+            }
           } else {
             console.log("error al loguearse")
           }
@@ -58,11 +83,10 @@ class Login extends Component {
     this.setState({ registrarse: !this.state.registrarse });
   }
 
+  
+
   render() {
     if (this.state.redirect) {
-      return <Redirect to={'/homecliente'} /> ///cambiarlo por /homecliente
-    }
-    if (sessionStorage.getItem('infoUsuario')) {
       return <Redirect to={'/homecliente'} /> ///cambiarlo por /homecliente
     }
 
@@ -108,6 +132,7 @@ class Login extends Component {
                   onClick={this.componentClicked}
                   callback={this.responseFacebook}
                   textButton="Ingresar con Facebook"
+                  size="metro"
                 />
                 <a onClick={this.toggleRegistro}>Registrase</a>
               </Aux>

@@ -1,29 +1,101 @@
 import React, { Component } from 'react'
 import Geosuggest from 'react-geosuggest'
+import Modal from 'react-modal'
 
 import MapContainer from '../MapContainer/MapContainer'
-import { getData } from '../../services/api/api'
+import axio from '../../services/api/api'
 import ListEmpresas from '../../components/ListEmpresas/ListEmpresas'
+import ClientProfile from '../../containers/ClientProfile/ClientProfile'
+import ListRubros from '../../components/ListRubros/ListRubros'
+
+Modal.setAppElement('#root');
 
 class GeoLocationComponent extends Component {
 
   state = {
+    modalIsOpen: false,
+    addressIsSetted: false,
     address: {
       dir: "",
       lat: 0,
       lng: 0
     },
-    enterprices: [{ lat: -34.9150803, lng: -56.159808, name: "Empresa1" },
-    { lat: -34.9087262, lng: -56.154915700000004, name: "Empresa2" },
-    { lat: -34.9127992, lng: -56.16515129999999, name: "Empresa3" }
-    ],
+    direccionesCliente: [],
+    enterprices: [],
     zoom: 15,
+    rubros: [],
     rubroEmpresas: "",
     paginasEmpresas: 0,
   }
 
   componentDidMount() {
     this.getCurrentLocation();
+    this.getDireccionesCliente(this.props.emailCliente);
+    this.getRubros();
+    this.openModal();
+  }
+
+  openModal = () => {
+    this.setState({ modalIsOpen: true });
+  }
+
+  closeModal = () => {
+    if (this.state.modalIsOpen && this.state.addressIsSetted) {
+      this.setState({ modalIsOpen: false });
+    }
+  }
+
+  getDireccionesCliente = (email) => {
+    const query = `?email=${email}`;
+    axio.post(`ListarDireccionesCliente${query}`)
+      .then(({ data })=> {
+        if (data.status == 200) {
+          this.setState({ direccionesCliente: data.direcciones })
+        } else {
+          console.log("se ve que no tiene direcciones o hubo un error")
+        }
+      })
+  }
+
+  selectDireccion = (direccion) => {
+    this.setState({
+      address: {
+        dir: direccion.Direccion,
+        lat: direccion.Latitud,
+        lng: direccion.Longitud
+      }
+    })
+  }
+
+  addDireccion = (direccion, longitud, latitud, email) => {
+    axio.post('AgregarDireccionCliente', {
+      Email: email,
+      Direccion: direccion,
+      Longitud: longitud,
+      Latitud: latitud,
+    })
+      .then(({data}) => {
+        if (data.status == 201) {
+          this.getDireccionesCliente(email);
+        } else {
+          console.log("se ve que no se pudo agregar la direccion")
+        }
+      })
+  }
+
+  deleteDireccion = (idDireccion, email) => {
+    axio.delete('BorrarDireccionCliente', {
+      data: {
+        GuidDireccion: idDireccion
+      }
+    })
+      .then(({ data }) => {
+        if (data.status == 200) {
+          this.getDireccionesCliente(email);
+        } else {
+          console.log("se ve que no se pudo borrar la direccion");
+        }
+      })
   }
 
   getCurrentLocation = () => {
@@ -40,9 +112,35 @@ class GeoLocationComponent extends Component {
         })
     })
   }
+  getRubros = () => {
+    axio.get('ObtenerRubros')
+      .then(({ data }) => {
+        if (data.status == 200) {
+          this.setState({
+            rubros: data.rubros
+          })
+        } else {
+          console.log("se ve que hubo un erro retirando los rubros, quiza no haya")
+        }
+      })
+  }
+
+  chooseRubro = (GuidRubro) => {
+    this.setState({
+      rubroEmpresas: GuidRubro,
+      enterprices: [],
+      paginasEmpresas: 0
+    }, () => {
+      console.log(this.state.rubroEmpresas, "rubro de las empresas a seleccionar");
+      console.log(this.state.enterprices, "empresas");
+
+      this.getEmpresas(this.state.rubroEmpresas, this.state.paginasEmpresas, this.state.address.lat, this.state.address.lng)
+
+    })
+  }
 
   getEmpresas = (idRubro, pagina, lat, lng) => {
-    getData('/ObtenerEmpresasPorRubro/', {
+    axio.get('ObtenerEmpresasPorRubro', {
       params: {
         idRubro: idRubro,
         pagina: pagina,
@@ -71,7 +169,7 @@ class GeoLocationComponent extends Component {
       }
     )
   }
- 
+
   onSuggestSelect = (suggest) => {
     if (suggest) {
       const { location: { lat, lng }, description } = suggest
@@ -82,55 +180,88 @@ class GeoLocationComponent extends Component {
         lng: lng
       }
       this.setState({
-        address: newAdress
-      })
+        address: newAdress,
+        addressIsSetted: true,
+        enterprices: []
+      }, this.getEmpresas(this.state.rubroEmpresas, this.state.paginasEmpresas, this.state.address.lat, this.state.address.lng))
       console.log(this.state.address)
     }
   }
 
-  onClickMap = (e) => {
-    console.log(e)
-    // const newAdress = {
-    //   dir: "",
-    //   lat: e.LatLng.lat(),
-    //   lng: e.LatLng.lng()
-    // }
-
-    // this.setState({
-    //   address: newAdress
-    // })
-  }
-
   render() {
     return (
-      <div className="clientContentContainer">
-        <div className="homeClientLefAside">
+      <div>
+        <ClientProfile
+          emailCliente={this.props.emailCliente}
+          nombreCliente={this.props.nombreCliente}
+          fotoCliente={this.props.fotoCliente}
+          direccionesCliente={this.state.direccionesCliente}
+          direccionActual={this.state.address}
+          selectDireccion={this.selectDireccion}
+          addDireccion={this.addDireccion}
+          deleteDireccion={this.deleteDireccion}
+        />
+        <Modal
+          isOpen={this.state.modalIsOpen}
+          onAfterOpen={this.afterOpenModal}
+          onRequestClose={this.closeModal}
+          style={customStyles}
+          contentLabel="Example Modal"
+        >
+          <h2 ref={subtitle => this.subtitle = subtitle}>Escribe tu direccion</h2>
           <Geosuggest
             placeholder="Ingresa la direccion de envio"
             onSuggestSelect={this.onSuggestSelect}
             location={new google.maps.LatLng(53.558572, 9.9278215)}
             radius="20"
           />
+          <button onClick={this.closeModal}>close</button>
+        </Modal>
 
-          <div>
-            donde desea comprar?
+        <div className="clientContentContainer">
+
+          <div className="homeClientLefAside">
+            <Geosuggest
+              placeholder="Ingresa la direccion de envio"
+              onSuggestSelect={this.onSuggestSelect}
+              location={new google.maps.LatLng(53.558572, 9.9278215)}
+              radius="20"
+            />
+
+            <div>
+              donde desea comprar?
+            </div>
+            <ListRubros
+              rubros={this.state.rubros}
+              chooseRubro={this.chooseRubro}
+            />
+            <ListEmpresas
+              empresas={this.state.enterprices}
+              verMasEmpresas={this.cargarMasEmpresas}
+            />
           </div>
-          <ListEmpresas 
-            empresas={this.state.enterprices} 
-            verMasEmpresas={this.cargarMasEmpresas}
-          />
-        </div>
 
-
-        <div className="customGoogleMap">
-          <MapContainer
-            enterprices={this.state.enterprices}
-            address={this.state.address}
-          />
+          <div className="customGoogleMap">
+            <MapContainer
+              enterprices={this.state.enterprices}
+              address={this.state.address}
+            />
+          </div>
         </div>
       </div>
+
     )
   }
 }
 
 export default GeoLocationComponent;
+
+const customStyles = {
+  content: {
+    width: '60vw', 
+    height: '30vh',
+    margin: 'auto',
+    overflow: 'visible'
+
+  }
+};

@@ -8,15 +8,17 @@ class HomeCliente extends Component {
 	state = {
 		redirect: false,
 		emailCliente: "",
-		nombreCliente: ""
+		nombreCliente: "",
+		fotoCliente: ""
 	}
 
-	componentDidMount() {
+	componentWillMount() {
 		if (sessionStorage.getItem('infoUsuario')) {
 			var infoUsuario = JSON.parse(sessionStorage.getItem('infoUsuario'));
 			this.setState({
-				emailCliente: infoUsuario.email,
-				nombreCliente: infoUsuario.name
+				emailCliente: infoUsuario.Email,
+				nombreCliente: infoUsuario.Nombre,
+				fotoCliente: infoUsuario.Foto
 			})
 		} else {
 			this.setState({ redirect: true })
@@ -37,7 +39,11 @@ class HomeCliente extends Component {
 		return (
 			<div className="homeClientWrapper">
 				<h1>Soy Home Cliente</h1>
-				<GeoLocationComponent />
+				<GeoLocationComponent 
+					emailCliente={this.state.emailCliente}
+					nombreCliente={this.state.nombreCliente}
+					fotoCliente={this.state.fotoCliente}
+				/>
 				<button type='button' onClick={this.logout}>Salir</button>
 			</div>
 		)

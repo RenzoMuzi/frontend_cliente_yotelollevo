@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
+import Modal from 'react-modal'
 import Aux from '../../hoc/Auxiliar'
-import { postData } from '../../services/api/api'
+import axio from '../../services/api/api'
+
 import {Redirect, Link} from 'react-router-dom'
-import FacebookLogin from 'react-facebook-login'
+
+Modal.setAppElement('#root');
 
 class SignUp extends Component {
     state = {
+        modalIsOpen: false,
         nombreUsuario: '',
         emailUsuario: '',
         claveUsuario: '',
@@ -13,16 +17,14 @@ class SignUp extends Component {
 
     signUp = (nombreUsuario, emailUsuario, claveUsuario,) => {
       if ((emailUsuario !== '')&&(claveUsuario !== '')&&(nombreUsuario)) {
-        postData('/Client/RegistrarCliente', {       ///aca cambiar el /post por algo asi como /signin
-          nombre: nombreUsuario,
-          email: emailUsuario,
-          clave: claveUsuario
+        axio.post('RegistrarCliente', {       ///aca cambiar el /post por algo asi como /signin
+          Nombre: nombreUsuario,
+          Email: emailUsuario,
+          Clave: claveUsuario
         })
         .then((res) => {
-          console.log(res.data)
-          if (res.status === 200) {
-            sessionStorage.setItem('infoUsuario', res.data);
-            this.setState({ redirect: true })
+          if (res.data.status == 200) {
+            this.openModal();
           } else {
             console.log("error al registrarse")
           }
@@ -40,17 +42,35 @@ class SignUp extends Component {
       this.setState({ [e.target.name] : e.target.value })
     }
     
+    openModal = () => {
+      this.setState({modalIsOpen: true});
+    }
+   
+    closeModal = () => {
+      if (this.state.modalIsOpen) {
+        this.setState({modalIsOpen: false});
+      }
+    }
 
+    closeModalAndRedirect = (e) => {
+      this.closeModal();
+      this.props.mostrarRegistro(e);
+    }
+     
     render(){
-        if (this.state.redirect) {
-          return <Redirect to={'/homecliente'} /> 
-        }
-        if (sessionStorage.getItem('infoUsuario')) {
-          return <Redirect to={'/homecliente'} /> 
-        }
- 
         return(
             <Aux>
+              <Modal
+                isOpen={this.state.modalIsOpen}
+                onAfterOpen={this.afterOpenModal}
+                onRequestClose={this.closeModal}
+                style={customStyles}
+                contentLabel="Example Modal"
+              >
+                <h2>Confirma el registro en tu casilla de correo: {this.state.emailUsuario}</h2>
+                <button onClick={this.closeModalAndRedirect}>close</button>
+              </Modal>
+
               <h1>Registrarse</h1>
               <form onSubmit={(e) => this.submitLoginHandler(e)}>
                 <label>Nombre de Usuario</label>
@@ -89,3 +109,24 @@ class SignUp extends Component {
 }
 
 export default SignUp;
+
+const customStyles = {
+  content : {
+    
+      // width:'50%',
+      // height:'30%',
+      // margin:'0 auto',
+      // background:'#f7f7f7',
+      // position:'absolute',
+      // left:'40%',
+      // top:'50%',
+      // marginLeft:'-250px',
+      // marginTop:'-250px',
+
+      width: '60vw', /*optional*/
+      height: '30vh',
+      margin: 'auto',
+      overflow:'visible'
+     
+  }
+};

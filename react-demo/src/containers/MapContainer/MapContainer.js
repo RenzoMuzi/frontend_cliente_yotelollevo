@@ -34,8 +34,6 @@ class MapContainer extends Component {
         onClick={(map, e) => this.onMapClicked(map, e)}
         centerAroundCurrentLocation={true}
       >
-
-
         <Marker
           onClick={(e, marker) => this.onMarkerClick(e, marker)}
           name={`Usted esta aqui: ${this.props.address.dir}`}
@@ -43,14 +41,14 @@ class MapContainer extends Component {
         />
         {this.props.enterprices.map((enterprise) =>
           <Marker
-            position={{ lat: enterprise.lat, lng: enterprise.lng }}
-            key={enterprise.lat + enterprise.lng}
+            position={{ lat: enterprise.Latitud, lng: enterprise.Longitud }}
+            key={enterprise.Rut}
             icon={{
               url: "src/assets/package.png",
               anchor: new google.maps.Point(32, 32),
               scaledSize: new google.maps.Size(36, 36)
             }}
-            name={enterprise.name}
+            name={enterprise.Nombre}
             onClick={(e, marker, position) => this.onMarkerClick(e, marker, position)}
           />
         )}
