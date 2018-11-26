@@ -112,6 +112,7 @@ class GeoLocationComponent extends Component {
         })
     })
   }
+  
   getRubros = () => {
     axio.get('ObtenerRubros')
       .then(({ data }) => {
