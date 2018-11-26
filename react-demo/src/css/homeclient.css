@@ -1,21 +1,33 @@
 .homeClientWrapper {
   margin: 0 auto;
-  max-width: 90%;
+  max-width: 100%;
 }
 
 .clientContentContainer {
-  display: flex;
-  flex-wrap: wrap;
+  /* display: flex;
+  flex-wrap: wrap; */
+  width: 100%;
+  position: relative;
 }
 
 .homeClientLefAside {
-  position: relative;
+  /* position: relative;
   flex-grow: 1;
   min-width: 230px;
-  padding: 10px;
+  padding: 10px; */
+  position: absolute;
+  left: 0;
+  top: 0;
+  min-width: 300px;
+  height: 100%;
+  z-index: 1;
+  background-color:white;
+  
 }
 
-
+.ReactModal__Overlay {
+  z-index: 2;
+}
 /* .geosuggest {
  
 } */

@@ -14,17 +14,34 @@
     opacity: 0.9;
 }
 
-.button {
+.button, .button-normal {
     background-color: var(--button-color-main);
 }
 
 .button:hover,
-.kep-login-facebook.metro:hover {
+.kep-login-facebook.metro:hover,
+.button-normal:hover {
     opacity: 1;
     box-shadow: 5px 5px 18px #888888;
 
 }
 
 .button:active,
-.kep-login-facebook.metro:active {
+.kep-login-facebook.metro:active,
+.button-normal:active {
+}
+
+.button-normal {
+    border-radius: 5px !important;
+    font-size: 0.6rem;
+    font-family: 'Comfortaa', Arial, sans-serif;
+    font-weight: 700;
+    padding: 9px 10px;
+    margin: 5px;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+    color: white;
+    cursor: pointer;
+    opacity: 0.9;
 }

@@ -38,7 +38,7 @@ class HomeCliente extends Component {
 
 		return (
 			<div className="homeClientWrapper">
-				<h1>Soy Home Cliente</h1>
+				<h2>YA TE LO LLEVO</h2>
 				<GeoLocationComponent 
 					emailCliente={this.state.emailCliente}
 					nombreCliente={this.state.nombreCliente}

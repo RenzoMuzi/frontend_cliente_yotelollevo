@@ -3,7 +3,7 @@ import React from 'react'
 const ListDirecciones = ({ emailCliente, direccionActual, direcciones, selectDireccion, addDireccion, deleteDireccion }) => (
   <div>
     <span>{direccionActual.dir}
-      <button onClick={() => addDireccion(direccionActual.dir, direccionActual.lat, direccionActual.lng, emailCliente)}>
+      <button className="button-normal" onClick={() => addDireccion(direccionActual.dir, direccionActual.lat, direccionActual.lng, emailCliente)}>
         Agregar
       </button>
     </span>

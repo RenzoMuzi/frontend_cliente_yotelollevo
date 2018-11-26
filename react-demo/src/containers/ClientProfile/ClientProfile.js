@@ -10,7 +10,7 @@ class ClientProfile extends Component {
   render(){
     return(
       <div>
-        <h1>{this.props.emailCliente}</h1>
+        <p>{this.props.emailCliente}</p>
         <img style={imgStyle} src={this.props.fotoCliente} />
         <ListDirecciones 
           direcciones={this.props.direccionesCliente}
