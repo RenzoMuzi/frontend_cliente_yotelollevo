@@ -27,6 +27,9 @@ class Login extends Component {
         Foto: response.picture.data.url,
         IdFacebook: response.userID
       };
+      /// borrar esto, es para que ya te redirija a la pagina de usuario
+      sessionStorage.setItem('infoUsuario', JSON.stringify(datosUsuario));
+      /////
       axio.post('IniciarSesionPorFacebook', datosUsuario)
         .then((res) => {
           if (res.data.status == 200) {

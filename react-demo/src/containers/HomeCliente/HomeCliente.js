@@ -38,6 +38,8 @@ class HomeCliente extends Component {
 			return (<Redirect to={'/login'} />)
 		}
 
+		//aca hacer lo mismo de redirect con empresa
+
 		return (
 			<div className="homeClientWrapper">
 				<HeaderComponent 
