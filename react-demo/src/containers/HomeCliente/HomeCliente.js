@@ -44,13 +44,13 @@ class HomeCliente extends Component {
 					emailCliente={this.state.emailCliente}
 					nombreCliente= {this.state.nombreCliente}
 					fotoCliente={this.state.fotoCliente} 
+					logout={this.logout}
 				/>
 				<GeoLocationComponent 
 					emailCliente={this.state.emailCliente}
 					nombreCliente={this.state.nombreCliente}
 					fotoCliente={this.state.fotoCliente}
 				/>
-				<button type='button' onClick={this.logout}>Salir</button>
 			</div>
 		)
 	}

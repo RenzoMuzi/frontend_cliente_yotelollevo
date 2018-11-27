@@ -1,12 +1,13 @@
 import React from 'react'
 import { Redirect, Link } from 'react-router-dom'
 
-const HeaderComponent = ({ nombreCliente, fotoCliente }) => (
+const HeaderComponent = ({ nombreCliente, fotoCliente, logout }) => (
   <div className="header-wrapper">
     <div>
       <img className="brand-logo-header" src='/src/assets/package.png'></img>
       <Link to="/homecliente">Ya te lo llevo</Link>
     </div>
+
     <div className="header-user-info">
       <div className="header-client-picture" >
         <img src={fotoCliente} />
@@ -14,6 +15,10 @@ const HeaderComponent = ({ nombreCliente, fotoCliente }) => (
       <Link to="/perfilCliente">{nombreCliente}</Link>
     </div>
 
+    <div>
+				<button type='button' className="button-normal" onClick={logout}>Salir</button>
+      {}
+    </div>
   </div>
 )
 

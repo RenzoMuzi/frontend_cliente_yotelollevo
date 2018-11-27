@@ -11,6 +11,7 @@ import axios from '../../services/api/api'
 
 class Empresa extends Component {
   state = {
+    permitido: false,
     productos: [],
     productoActual: {},
     paginasProducto: 0,
@@ -23,12 +24,32 @@ class Empresa extends Component {
 
   componentDidMount() {
     // this.getCatergoriasProductos(); ver si va o no
+
+    this.tienePermiso(this.props.rut, this.props.emailCliente);
     this.getProductos(this.props.rut, this.state.paginasProducto);
   }
 
   // getCatergoriasProductos = () => {
 
   // }
+
+  tienePermiso = (rut, email) => {
+    axios.get('TienePermisoUsuario', {
+      params: {
+        rut: rut,
+        email: email
+      }
+    })
+      .then(({ data }) => {
+        if (data.status == 200) {
+          this.setState({
+            permitido: true
+          })
+        } else {
+          console.log('se ve que no tenes permitido entrar a esta empresa, te vamos a redirigir al home')
+        }
+      })
+  }
 
   getProductos = (rut, index) => {
     axios.get('ObtenerProductos', {
