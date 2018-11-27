@@ -11,18 +11,26 @@
 }
 
 .homeClientLefAside {
-  /* position: relative;
-  flex-grow: 1;
-  min-width: 230px;
-  padding: 10px; */
   position: absolute;
   left: 0;
   top: 0;
-  min-width: 300px;
   height: 100%;
   z-index: 1;
-  background-color:white;
-  
+  background-color: none;
+  display: flex;
+}
+
+.leftAside {
+  min-width: 300px;
+  background-color: white;
+  padding: 5px;
+
+}
+
+.button-toggle-aside {
+  opacity: 1;
+  height: 50px;
+  margin: 100px 0px;
 }
 
 .ReactModal__Overlay {
@@ -37,7 +45,7 @@
   font-size: 1rem;
   position: relative;
   width: 100%;
-  margin: 1em auto;
+  margin: 0 auto;
   text-align: left;
 }
 .geosuggest__input {

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
+
 import Aux from '../../hoc/Auxiliar'
+import HeaderComponent from '../../components/HeaderComponent/HeaderComponent'
 
 import GeoLocationComponent from '../GeoLocationComponent/GeoLocationComponent'
 
@@ -38,7 +40,11 @@ class HomeCliente extends Component {
 
 		return (
 			<div className="homeClientWrapper">
-				<h2>YA TE LO LLEVO</h2>
+				<HeaderComponent 
+					emailCliente={this.state.emailCliente}
+					nombreCliente= {this.state.nombreCliente}
+					fotoCliente={this.state.fotoCliente} 
+				/>
 				<GeoLocationComponent 
 					emailCliente={this.state.emailCliente}
 					nombreCliente={this.state.nombreCliente}

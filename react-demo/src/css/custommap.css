@@ -1,6 +1,6 @@
 .customGoogleMap {
   display: block;
-  min-height: 500px;
+  min-height: 98vh;
   min-width: 280px; 
   position: relative;
   flex-grow: 3

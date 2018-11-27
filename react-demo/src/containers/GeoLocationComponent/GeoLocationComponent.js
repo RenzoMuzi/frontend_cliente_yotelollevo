@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Geosuggest from 'react-geosuggest'
 import Modal from 'react-modal'
+import { FaAngleDoubleRight, FaAngleDoubleLeft } from 'react-icons/fa'
 
 import MapContainer from '../MapContainer/MapContainer'
 import axio from '../../services/api/api'
@@ -26,6 +27,7 @@ class GeoLocationComponent extends Component {
     rubros: [],
     rubroEmpresas: "",
     paginasEmpresas: 0,
+    aside: true
   }
 
   componentDidMount() {
@@ -48,7 +50,7 @@ class GeoLocationComponent extends Component {
   getDireccionesCliente = (email) => {
     const query = `?email=${email}`;
     axio.post(`ListarDireccionesCliente${query}`)
-      .then(({ data })=> {
+      .then(({ data }) => {
         if (data.status == 200) {
           this.setState({ direccionesCliente: data.direcciones })
         } else {
@@ -74,7 +76,7 @@ class GeoLocationComponent extends Component {
       Longitud: longitud,
       Latitud: latitud,
     })
-      .then(({data}) => {
+      .then(({ data }) => {
         if (data.status == 201) {
           this.getDireccionesCliente(email);
         } else {
@@ -112,7 +114,7 @@ class GeoLocationComponent extends Component {
         })
     })
   }
-  
+
   getRubros = () => {
     axio.get('ObtenerRubros')
       .then(({ data }) => {
@@ -189,10 +191,16 @@ class GeoLocationComponent extends Component {
     }
   }
 
+  openAside = () => {
+    this.setState({
+      aside: !this.state.aside
+    })
+  }
+
   render() {
     return (
       <div>
-        <ClientProfile
+        {/* <ClientProfile
           emailCliente={this.props.emailCliente}
           nombreCliente={this.props.nombreCliente}
           fotoCliente={this.props.fotoCliente}
@@ -201,7 +209,7 @@ class GeoLocationComponent extends Component {
           selectDireccion={this.selectDireccion}
           addDireccion={this.addDireccion}
           deleteDireccion={this.deleteDireccion}
-        />
+        /> */}
         <Modal
           isOpen={this.state.modalIsOpen}
           onAfterOpen={this.afterOpenModal}
@@ -219,27 +227,33 @@ class GeoLocationComponent extends Component {
           <button className="button-normal" onClick={this.closeModal}>close</button>
         </Modal>
 
+
+
         <div className="clientContentContainer">
 
           <div className="homeClientLefAside">
-            <Geosuggest
-              placeholder="Ingresa la direccion de envio"
-              onSuggestSelect={this.onSuggestSelect}
-              location={new google.maps.LatLng(53.558572, 9.9278215)}
-              radius="20"
-            />
+            {this.state.aside && <div className="leftAside">
+              <Geosuggest
+                placeholder="Ingresa la direccion de envio"
+                onSuggestSelect={this.onSuggestSelect}
+                location={new google.maps.LatLng(53.558572, 9.9278215)}
+                radius="20"
+              />
 
-            <div>
-              donde desea comprar?
+              <div>
+                donde desea comprar?
             </div>
-            <ListRubros
-              rubros={this.state.rubros}
-              chooseRubro={this.chooseRubro}
-            />
-            <ListEmpresas
-              empresas={this.state.enterprices}
-              verMasEmpresas={this.cargarMasEmpresas}
-            />
+              <ListRubros
+                rubros={this.state.rubros}
+                chooseRubro={this.chooseRubro}
+              />
+              <ListEmpresas
+                empresas={this.state.enterprices}
+                verMasEmpresas={this.cargarMasEmpresas}
+              />
+            </div>}
+
+            <button className="button-normal button-toggle-aside" onClick={this.openAside}>{this.state.aside ? <FaAngleDoubleLeft /> : <FaAngleDoubleRight />}</button>
           </div>
 
           <div className="customGoogleMap">
@@ -259,7 +273,7 @@ export default GeoLocationComponent;
 
 const customStyles = {
   content: {
-    width: '60vw', 
+    width: '60vw',
     height: '30vh',
     margin: 'auto',
     overflow: 'visible'

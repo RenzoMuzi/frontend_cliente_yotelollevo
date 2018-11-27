@@ -4,6 +4,7 @@ import Login from './containers/Login/Login'
 import SignUp from './containers/SignUp/SignUp'
 import NotFound from './components/NotFound/NotFound'
 import HomeCliente from './containers/HomeCliente/HomeCliente';
+import ClientProfile from './containers/ClientProfile/ClientProfile';
 
 const Routes = () => (
   <BrowserRouter >
@@ -12,6 +13,7 @@ const Routes = () => (
       <Route exact path="/login" component={Login}/>
       <Route exact path="/signup" component={SignUp}/>
       <Route exact path="/homecliente" component={HomeCliente}/>
+      <Route exact path='/perfilCliente' component={ClientProfile}/>
       <Route exact path="*" component={NotFound}/>
     </Switch>
   </BrowserRouter>

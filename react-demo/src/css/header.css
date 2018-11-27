@@ -1,0 +1,26 @@
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 65px;
+}
+
+.brand-logo-header {
+  height: 40px;
+  width: auto;
+  display: inline-block;
+}
+
+.header-user-info {
+  display: flex;
+  align-items: center;
+}
+
+.header-client-picture {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: inline-block;
+}
+

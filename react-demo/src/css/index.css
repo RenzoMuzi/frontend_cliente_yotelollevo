@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css?family=Comfortaa|Patua+One');
 @import './loginsignup.css';
+@import './header.css';
 @import './buttons.css';
 @import './custommap.css';
 @import './homeclient.css';
 @import './direcciones.css';
+@import './empresas.css';
 
 :root {
     --button-color-main: #ff6a32ba;    
