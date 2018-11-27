@@ -25,13 +25,15 @@ class Empresa extends Component {
   componentDidMount() {
     // this.getCatergoriasProductos(); ver si va o no
 
-    this.tienePermiso(this.props.rut, this.props.emailCliente);
+    // Si es por el redirect creo que hay que poner this.props.location.state.rut
+    this.tienePermiso(this.props.rut, this.props.emailCliente);  // estos datos creo que es mejor sacarlo del session storage
     this.getProductos(this.props.rut, this.state.paginasProducto);
   }
 
   // getCatergoriasProductos = () => {
 
   // }
+
 
   tienePermiso = (rut, email) => {
     axios.get('TienePermisoUsuario', {
