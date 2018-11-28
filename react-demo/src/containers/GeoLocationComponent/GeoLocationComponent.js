@@ -208,7 +208,10 @@ class GeoLocationComponent extends Component {
   render() {
 
     if (this.state.redirigirEmpresa != "") {
-      return <Redirect to={'/empresa'} /> ///cambiarlo por /homecliente
+      return <Redirect to={{
+        pathname: `/empresa/${this.state.redirigirEmpresa}`,
+        state: { rut: this.state.redirigirEmpresa }
+      }} /> ///cambiarlo por /homecliente
     }
     
     return (

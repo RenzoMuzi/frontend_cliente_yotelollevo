@@ -95,10 +95,11 @@ import React, { Component } from 'react'
 // }
 class Empresa extends Component {
   render(){
+    const { match } = this.props;
     return(
       <div>
         <h1>holaaaa soy empresa</h1>
-        <h2>que paso aca</h2>
+        <h2>{match.params.rut}</h2>
       </div>
       
     )
