@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import ListComentarios from '../ListComentarios/ListComentarios'
 import axio from '../../services/api/api'
 
-// aca le pasan por props el producto
+// aca le pasan por props el producto y rut
 class Producto extends Component {
   state = {
     comentarios: [],
@@ -11,13 +11,14 @@ class Producto extends Component {
   }
 
   componentDidMount() {
-   this.getComentarios(rut, productId);
+   // this.VerComentariosProducto(this.props.rut, this.props.producto.productId);
   }
 
-  VerComentariosProducto = (rut, productId) => {
+  VerComentariosProducto = (rut, producto) => {
+    this.props.verProducto()
     axio.get('VerComentariosProducto', {
       rut: rut,
-      productId: productId
+      productId: producto.productId
     })
       .then(({ data }) => {
         if (data.status == 200) {
@@ -28,23 +29,26 @@ class Producto extends Component {
           console.log("se ve que hubo un problema obteniendo los comentarios")
         }
       })
+    this.setState({ 
+      seleccionado: !this.state.seleccionado
+    })
   }
 
   render() {
     return (
       <div>
-        <h3>{producto.PropProducto. Nombre}</h3>
+        <h3>{producto.PropProducto.Nombre}</h3>
         <img src={producto.PropProducto.Imagenes[0]}></img>
         <p>{producto.PropProducto.Descripcion}</p>
         <span>{productos.PropProducto.Puntos}</span>
         <button onClick={() => agregarAlCarrito(producto.ObjectId)}>Agregar al carrito</button>
-        {!this.state.seleccionado && <button onClick={() => verProducto(producto)}>Ver</button>}
-        {this.state.seleccionado 
-          && 
-        <ListComentarios 
-          comentarios={this.state.comentarios}
-          productId={producto.ObjectId}
-        />}
+        {!this.state.seleccionado && <button onClick={() => VerComentariosProducto(this.props.rut, this.props.producto)}>Ver</button>}
+        {this.state.seleccionado
+          &&
+          <ListComentarios
+            comentarios={this.state.comentarios}
+            productId={this.props.producto.ObjectId}
+          />}
       </div>
     )
   }

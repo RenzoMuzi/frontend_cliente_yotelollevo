@@ -2,12 +2,15 @@ import React, { Component } from 'react'
 import Geosuggest from 'react-geosuggest'
 import Modal from 'react-modal'
 import { FaAngleDoubleRight, FaAngleDoubleLeft } from 'react-icons/fa'
+import { generatePath } from 'react-router'
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 
 import MapContainer from '../MapContainer/MapContainer'
 import axio from '../../services/api/api'
 import ListEmpresas from '../../components/ListEmpresas/ListEmpresas'
 import ClientProfile from '../../containers/ClientProfile/ClientProfile'
 import ListRubros from '../../components/ListRubros/ListRubros'
+import Empresa from '../Empresa/Empresa';
 
 Modal.setAppElement('#root');
 
@@ -27,7 +30,8 @@ class GeoLocationComponent extends Component {
     rubros: [],
     rubroEmpresas: "",
     paginasEmpresas: 0,
-    aside: true
+    aside: true,
+    redirigirEmpresa: ""
   }
 
   componentDidMount() {
@@ -163,6 +167,10 @@ class GeoLocationComponent extends Component {
     console.log(this.state.address, "holaa");
   }
 
+  irEmpresa = () => {
+    
+  }
+
   cargarMasEmpresas = () => {
     this.setState({ paginasEmpresas: this.state.paginasEmpresas + 1 },
       () => {
@@ -198,6 +206,11 @@ class GeoLocationComponent extends Component {
   }
 
   render() {
+
+    if (this.state.redirigirEmpresa != "") {
+      return <Redirect to={'/empresa'} /> ///cambiarlo por /homecliente
+    }
+    
     return (
       <div>
         {/* <ClientProfile
@@ -227,10 +240,7 @@ class GeoLocationComponent extends Component {
           <button className="button-normal" onClick={this.closeModal}>close</button>
         </Modal>
 
-
-
         <div className="clientContentContainer">
-
           <div className="homeClientLefAside">
             {this.state.aside && <div className="leftAside">
               <Geosuggest
@@ -239,23 +249,21 @@ class GeoLocationComponent extends Component {
                 location={new google.maps.LatLng(53.558572, 9.9278215)}
                 radius="20"
               />
-
               <div>
                 donde desea comprar?
             </div>
               <ListRubros
                 rubros={this.state.rubros}
                 chooseRubro={this.chooseRubro}
+                irEmpresa={this.irEmpresa}
               />
               <ListEmpresas
                 empresas={this.state.enterprices}
                 verMasEmpresas={this.cargarMasEmpresas}
               />
             </div>}
-
             <button className="button-normal button-toggle-aside" onClick={this.openAside}>{this.state.aside ? <FaAngleDoubleLeft /> : <FaAngleDoubleRight />}</button>
           </div>
-
           <div className="customGoogleMap">
             <MapContainer
               enterprices={this.state.enterprices}
@@ -264,7 +272,6 @@ class GeoLocationComponent extends Component {
           </div>
         </div>
       </div>
-
     )
   }
 }
