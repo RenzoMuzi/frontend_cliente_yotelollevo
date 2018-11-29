@@ -180,17 +180,24 @@ class Empresa extends Component {
   }
 
   verCarrito = (email, rut) => {
-    this.setState({
-      vistaCarrito: !this.state.vistaCarrito
-    }, () => {
-        axios.post('VerCarritodeCliente', {
-          EmailCliente: email,
-          Rut: rut
-        })
-          .then(({ data }) => {
-            console.log(data);
+    axios.post('VerCarritodeCliente', {
+      EmailCliente: email,
+      Rut: rut
+    })
+      .then(({ data }) => {
+        if (data.status == 200) {
+          this.setState({
+            carrito: data.carrito,
           })
+        } else {
+
+        }
       })
+
+    this.setState({
+      vistaCarrito: !this.state.vistaCarrito,
+      carritoUpdates: false
+    })
   }
 
   agregarAlCarrito = (email, rut, idProduct, cantidad) => {
@@ -234,6 +241,8 @@ class Empresa extends Component {
           nombreCliente={this.state.nombreCliente}
           volverYateLoLLevo={this.volverYateLoLLevo}
           verCarrito={this.verCarrito}
+          email={this.state.emailCliente}
+
         />
         <Modal
           isOpen={this.state.openModalPermiso}
@@ -248,7 +257,7 @@ class Empresa extends Component {
 
         {this.state.vistaCarrito
           ?
-          <Carrito carrito={this.state.carrito}/>
+          <Carrito carrito={this.state.carrito} />
           :
           <div>
             <h1>holaaaa soy empresa</h1>
