@@ -8,15 +8,19 @@ class MapContainer extends Component {
     selectedPlace: {},
   };
 
-  onMarkerClick = (e, marker, position) => {
-    this.setState({
-      activeMarker: marker,
-      showingInfoWindow: true
-    });
- 
-  
-    // console.log(position.latLng.lat(), position.latLng.lng(), "position");
-    // console.log(marker.name, this.state.activeMarker.name);   
+  onMarckerOver = (e, marker, position) => {
+    if (this.state.activeMarker.name != marker.name) {
+      this.setState({
+        activeMarker: marker,
+        showingInfoWindow: true
+      });
+    }
+  }
+
+  onEmpresaClick = (e, marker, position, rut) => {
+    // this.onMarkerClick(e, marker, position);
+    console.log(marker);
+    this.props.irEmpresa(rut)
   }
 
   onMapClicked = (map, e) => {
@@ -35,7 +39,7 @@ class MapContainer extends Component {
         centerAroundCurrentLocation={true}
       >
         <Marker
-          onClick={(e, marker) => this.onMarkerClick(e, marker)}
+          onMouseover={(e, marker) => this.onMarckerOver(e, marker)}
           name={`Usted esta aqui: ${this.props.address.dir}`}
           position={{ lat: this.props.address.lat, lng: this.props.address.lng }}
         />
@@ -49,7 +53,9 @@ class MapContainer extends Component {
               scaledSize: new google.maps.Size(36, 36)
             }}
             name={enterprise.Nombre}
-            onClick={(e, marker, position) => this.onMarkerClick(e, marker, position)}
+            onMouseover={(e, marker, position) => this.onMarckerOver(e, marker, position)}
+
+            onClick={(e, marker, position) => this.onEmpresaClick(e, marker, position, enterprise.Rut)}
           />
         )}
 

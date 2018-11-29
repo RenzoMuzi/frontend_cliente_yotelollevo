@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Geosuggest from 'react-geosuggest'
 import Modal from 'react-modal'
 import { FaAngleDoubleRight, FaAngleDoubleLeft } from 'react-icons/fa'
-import { generatePath } from 'react-router'
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 
 import MapContainer from '../MapContainer/MapContainer'
@@ -10,10 +9,8 @@ import axio from '../../services/api/api'
 import ListEmpresas from '../../components/ListEmpresas/ListEmpresas'
 import ClientProfile from '../../containers/ClientProfile/ClientProfile'
 import ListRubros from '../../components/ListRubros/ListRubros'
-import Empresa from '../Empresa/Empresa';
 
 Modal.setAppElement('#root');
-
 class GeoLocationComponent extends Component {
 
   state = {
@@ -48,6 +45,12 @@ class GeoLocationComponent extends Component {
   closeModal = () => {
     if (this.state.modalIsOpen && this.state.addressIsSetted) {
       this.setState({ modalIsOpen: false });
+    }
+  }
+
+  closeModalPermiso = () => {
+    if (this.state.modalPermisoIsOpen) {
+      this.setState({ modalPermisoIsOpen: false });
     }
   }
 
@@ -167,8 +170,10 @@ class GeoLocationComponent extends Component {
     console.log(this.state.address, "holaa");
   }
 
-  irEmpresa = () => {
-    
+  irEmpresa = (rut) => {
+    this.setState({
+      redirigirEmpresa: rut
+    })
   }
 
   cargarMasEmpresas = () => {
@@ -213,7 +218,7 @@ class GeoLocationComponent extends Component {
         state: { rut: this.state.redirigirEmpresa }
       }} /> ///cambiarlo por /homecliente
     }
-    
+
     return (
       <div>
         {/* <ClientProfile
@@ -228,10 +233,9 @@ class GeoLocationComponent extends Component {
         /> */}
         <Modal
           isOpen={this.state.modalIsOpen}
-          onAfterOpen={this.afterOpenModal}
           onRequestClose={this.closeModal}
           style={customStyles}
-          contentLabel="Example Modal"
+          contentLabel="direccion modal"
         >
           <h2 ref={subtitle => this.subtitle = subtitle}>Escribe tu direccion</h2>
           <Geosuggest
@@ -263,6 +267,7 @@ class GeoLocationComponent extends Component {
               <ListEmpresas
                 empresas={this.state.enterprices}
                 verMasEmpresas={this.cargarMasEmpresas}
+                irEmpresa={this.irEmpresa}
               />
             </div>}
             <button className="button-normal button-toggle-aside" onClick={this.openAside}>{this.state.aside ? <FaAngleDoubleLeft /> : <FaAngleDoubleRight />}</button>
@@ -271,6 +276,7 @@ class GeoLocationComponent extends Component {
             <MapContainer
               enterprices={this.state.enterprices}
               address={this.state.address}
+              irEmpresa={this.irEmpresa}
             />
           </div>
         </div>

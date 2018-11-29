@@ -8,6 +8,7 @@ const ListEmpresas = ({empresas, irEmpresa, verMasEmpresas}) =>
         <li 
           id={empresa.Rut} 
           key={empresa.Rut}
+          onClick={() => irEmpresa(empresa.Rut)}
         >
           {empresa.Nombre}
         </li>
