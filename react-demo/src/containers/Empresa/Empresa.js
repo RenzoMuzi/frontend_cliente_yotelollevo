@@ -95,7 +95,8 @@ class Empresa extends Component {
         } else {
           //cerrar modal
         }
-
+      }).catch(() => {
+        this.openModalPermiso()
       })
   }
 
