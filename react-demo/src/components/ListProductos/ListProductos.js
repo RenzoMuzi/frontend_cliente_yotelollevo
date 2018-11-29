@@ -1,6 +1,6 @@
 import React from 'react'
 
-const ListProductos = ({ productos, verProducto, agregarAlCarrito }) => (
+const ListProductos = ({ productos, verProducto, agregarAlCarrito, email, rut}) => (
   <div>
     {productos.map(producto => (
       <div key={producto.ObjectId}>
@@ -9,8 +9,8 @@ const ListProductos = ({ productos, verProducto, agregarAlCarrito }) => (
         <img src={producto.Imagenes}></img>
         <p>{producto.PropProducto.Descripcion}</p>
         {/* <span>{productos.PropProducto.Puntos}</span> */}
-        <button onClick={() => agregarAlCarrito(producto.ObjectId)}>Agregar al carrito</button>
-        <button onClick={() => verProducto(producto)}>Ver</button>
+        <button className="button-normal" onClick={() => agregarAlCarrito(email, rut, producto.ObjectId, 1)}>Agregar al carrito</button>
+        <button className="button-normal" onClick={() => verProducto(producto)}>Ver</button>
       </div>
     ))}
   </div>

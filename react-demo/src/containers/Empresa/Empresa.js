@@ -1,30 +1,41 @@
 import React, { Component } from 'react'
 import Modal from 'react-modal'
-import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom"
 
 import axios from '../../services/api/api'
 import ListProductos from '../../components/ListProductos/ListProductos'
+import HeaderEmpresa from '../../components/HeaderEmpresa/HeaderEmpresa'
+import Carrito from '../../components/Carrito/Carrito'
 
 Modal.setAppElement('#root');
 
 class Empresa extends Component {
   state = {
     permitido: false,
-    productos: [],
-    productoActual: {},
-    paginasProducto: 0,
-    // categoriasProductos: [], ver si va o no
-    carrito: [],  // array de [producto,cantidad]
     redirectLogin: false,
     redirectHome: false,
     openModalPermiso: false,
+    /////////
+    productos: [],
+    productoActual: {},
+    paginasProducto: 0,
+    ////////
+    vistaCarrito: false,
+    carrito: {},
+    carritoUpdates: false,
+    // categoriasProductos: [], ver si va o no
     nombreEmpresa: "",
-    fotoEmpresa: ""
+    fotoEmpresa: "",
+    nombreCliente: "",
+    fotoCliente: "",
+    emailCliente: ""
   }
 
   componentDidMount() {
+    this.verEmpresa(this.props.match.params.rut);
     if (sessionStorage.getItem('infoUsuario')) {
       var infoUsuario = JSON.parse(sessionStorage.getItem('infoUsuario'));
+      this.verInfoCLiente(infoUsuario.Email);
       this.tienePermisoUsuario(this.props.match.params.rut, infoUsuario.Email);
     } else {
       this.setState({ redirectLogin: true })
@@ -36,19 +47,38 @@ class Empresa extends Component {
   verEmpresa = (rut) => {
     axios.get('VerEmpresa', {
       params: {
-        rut: rut
+        Rut: rut
       }
     })
       .then(({ data }) => {
         if (data.status == 200) {
-           this.setState({
-             nombreEmpresa: "default",  //cambiar por data.NombreEmpresa
-             fotoEmpresa: "default" //cambiar por data.FotoEmpresa pero facu dijo que es un array o sea que seria tipo data.empresas[0].foto
-           })
+          this.setState({
+            nombreEmpresa: data.empresa.Nombre,  //cambiar por data.NombreEmpresa
+            fotoEmpresa: data.empresa.Logo //cambiar por data.FotoEmpresa pero facu dijo que es un array o sea que seria tipo data.empresas[0].foto
+          })
         } else {
           console.log("se ve que no se pudo obtener datos de la empresa");
         }
 
+      })
+  }
+
+  verInfoCLiente = (email) => {
+    axios.get('VerInfoCliente', {
+      params: {
+        email: email
+      }
+    })
+      .then(({ data }) => {
+        if (data.status == 200) {
+          this.setState({
+            nombreCliente: data.cliente.Nombre,
+            emailCliente: data.cliente.Email,
+            fotoCliente: data.cliente.Foto
+          })
+        } else {
+          console.log("parece que no se pudo obtener la info del cliente")
+        }
       })
   }
 
@@ -111,6 +141,12 @@ class Empresa extends Component {
       })
   }
 
+  volverYateLoLLevo = () => {
+    this.setState({
+      redirectHome: true
+    })
+  }
+
   // getCatergoriasProductos = () => {
   //   axios
   // }
@@ -143,9 +179,41 @@ class Empresa extends Component {
     //  redirija a la pagina de productos
   }
 
-  agregarAlCarrito = () => {
-    console.log("agregar al carrito");
+  verCarrito = (email, rut) => {
+    this.setState({
+      vistaCarrito: !this.state.vistaCarrito
+    }, () => {
+        axios.post('VerCarritodeCliente', {
+          EmailCliente: email,
+          Rut: rut
+        })
+          .then(({ data }) => {
+            console.log(data);
+          })
+      })
   }
+
+  agregarAlCarrito = (email, rut, idProduct, cantidad) => {
+    axios.post('AgregarProductoCarrito', {
+      Email: email,
+      Rut: rut,
+      IdProduct: idProduct,
+      Cantidad: cantidad
+    })
+      .then(({ data }) => {
+        if (data.status == 200) {
+
+          console.log('se agrego el producto al carrito');
+          this.setState({
+            carritoUpdates: true
+          })
+        } else {
+          console.log('se ve que no se pudo agregar el producto al carrito');
+        }
+      })
+  }
+
+
 
   render() {
     const { match } = this.props;
@@ -157,8 +225,16 @@ class Empresa extends Component {
     }
 
     return (
-      <div>
-
+      <div className="homeClientWrapper">
+        <HeaderEmpresa
+          rut={this.props.match.params.rut}
+          nombreEmpresa={this.state.nombreEmpresa}
+          fotoEmpresa={this.state.fotoEmpresa}
+          fotoCliente={this.state.fotoCliente}
+          nombreCliente={this.state.nombreCliente}
+          volverYateLoLLevo={this.volverYateLoLLevo}
+          verCarrito={this.verCarrito}
+        />
         <Modal
           isOpen={this.state.openModalPermiso}
           onRequestClose={this.closeModal}
@@ -169,13 +245,27 @@ class Empresa extends Component {
           <button className="button-normal" onClick={this.aceptarBrindarDatos}>Aceptar</button>
           <button className="button-normal" onClick={this.declinarBrindarDatos}>Declinar</button>
         </Modal>
-        <h1>holaaaa soy empresa</h1>
-        <h2>{match.params.rut}</h2>
-        {this.state.productos && <ListProductos
-          productos={this.state.productos}
-        // verProducto={this.verProducto}
-        // agregarAlCarrito={this.agregarAlCarrito}
-        />}
+
+        {this.state.vistaCarrito
+          ?
+          <Carrito carrito={this.state.carrito}/>
+          :
+          <div>
+            <h1>holaaaa soy empresa</h1>
+            <h2>{match.params.rut}</h2>
+            {this.state.productos &&
+              <ListProductos
+                productos={this.state.productos}
+                // verProducto={this.verProducto}
+                agregarAlCarrito={this.agregarAlCarrito}
+                email={this.state.emailCliente}
+                rut={this.props.match.params.rut}
+              />}
+          </div>
+        }
+
+
+
       </div>
 
     )
