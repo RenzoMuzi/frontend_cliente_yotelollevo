@@ -6,6 +6,7 @@ import axios from '../../services/api/api'
 import ListProductos from '../../components/ListProductos/ListProductos'
 import HeaderEmpresa from '../../components/HeaderEmpresa/HeaderEmpresa'
 import Carrito from '../../components/Carrito/Carrito'
+import Producto from '../../components/Producto/Producto'
 
 Modal.setAppElement('#root');
 
@@ -19,6 +20,7 @@ class Empresa extends Component {
     productos: [],
     productoActual: {},
     paginasProducto: 0,
+    vistaProducto: false,
     ////////
     vistaCarrito: false,
     carrito: {},
@@ -175,9 +177,17 @@ class Empresa extends Component {
       })
   }
 
-  verProducto = () => {
-    console.log("ver Producto");
-    //  redirija a la pagina de productos
+  verProducto = (producto) => {
+    this.setState({
+      productoActual: producto,
+      vistaProducto: true
+    })
+  }
+
+  cerrarProducto = () => {
+    this.setState({
+      vistaProducto: false
+    })
   }
 
   verCarrito = (email, rut) => {
@@ -221,8 +231,6 @@ class Empresa extends Component {
       })
   }
 
-
-
   render() {
     const { match } = this.props;
 
@@ -243,6 +251,7 @@ class Empresa extends Component {
           volverYateLoLLevo={this.volverYateLoLLevo}
           verCarrito={this.verCarrito}
           email={this.state.emailCliente}
+          verProducto={this.verProducto}
 
         />
         <Modal
@@ -260,18 +269,28 @@ class Empresa extends Component {
           ?
           <Carrito carrito={this.state.carrito} />
           :
-          <div>
-            <h1>holaaaa soy empresa</h1>
-            <h2>{match.params.rut}</h2>
-            {this.state.productos &&
-              <ListProductos
-                productos={this.state.productos}
-                // verProducto={this.verProducto}
-                agregarAlCarrito={this.agregarAlCarrito}
-                email={this.state.emailCliente}
-                rut={this.props.match.params.rut}
-              />}
-          </div>
+          this.state.vistaProducto
+            ?
+            <Producto
+              producto={this.state.productoActual}
+              cerrarProducto={this.cerrarProducto}
+              agregarAlCarrito={this.agregarAlCarrito}
+              email={this.state.emailCliente}
+              rut={this.props.match.params.rut} 
+            />
+            :
+            <div>
+              <h1>holaaaa soy empresa</h1>
+              <h2>{match.params.rut}</h2>
+              {this.state.productos &&
+                <ListProductos
+                  productos={this.state.productos}
+                  verProducto={this.verProducto}
+                  agregarAlCarrito={this.agregarAlCarrito}
+                  email={this.state.emailCliente}
+                  rut={this.props.match.params.rut}
+                />}
+            </div>
         }
 
 

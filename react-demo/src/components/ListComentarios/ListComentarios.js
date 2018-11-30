@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
-
-/// pasar por props: comentario, email, rut, productoid, addComentario
+import axios from '../../services/api/api'
 
 class ListComentarios extends Component {
   state = {
-    comentarioActual: ''
+    comentarioActual: '',
   }
 
   handleOnchangeComentarioActual = (valor) => {
@@ -13,37 +12,50 @@ class ListComentarios extends Component {
     })
   }
 
+  addComentario = (comentario, email, rut, productId) => {
+    axios.post('ComentarioProducto', {
+      Comentario: comentario,
+      Email: email,
+      ObjectIdProducto: productId,
+      Rut: rut
+    })
+      .then(({ data }) => {
+        if (data.state == 201) {
+          this.setState({
+            comentarioActual: ""
+          })
+        } else {
+
+        }
+      })
+  }
+
   render() {
     return (
       <div>
         <textarea
+          value={this.state.comentarioActual}
           onChange={(e) => this.handleOnchangeComentarioActual(e.target.value)}
         />
-        <button 
-          onClick={() => this.props.addComentario(
+        <button className="button-normal"
+          onClick={() => this.addComentario(
             this.state.comentarioActual,
             this.props.emailCliente,
             this.props.rut,
-            this.props.productId )}
-        >Comentar</button>
-        {this.props.comentarios.map(comentario =>
-          <div key={comentario.Fecha}>
-            <p>{comentario.comentario}</p>
-            <span>{comentario.Email}</span><span>{comentario.Fecha}</span>
-          </div>
-        )}
+            this.props.productId)}
+        >
+          Comentar
+        </button>
+        {(this.props.comentarios) &&
+          this.props.comentarios.map((comentario, index) =>
+            <div key={index}>
+              <p>{comentario.comentario}</p>
+              <span>{comentario.Email}</span><span>{comentario.Fecha}</span>
+            </div>
+          )}
       </div>
     )
   }
 }
 
 export default ListComentarios
-
-//   <div>
-
-  //    public string Comentario { get; set; }
-  //     public string Email { get; set; }
-  //     public string ObjectIdProducto { get; set; }
-  //     public string Rut { get; set; }
-  //     public DateTime Fecha { get; set; }
-  // </div>

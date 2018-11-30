@@ -7,7 +7,7 @@ const ListProductos = ({ productos, verProducto, agregarAlCarrito, email, rut}) 
         <p>aca hay un producto</p>
         <h3>{producto.PropProducto.Nombre}</h3>
         <img src={producto.Imagenes}></img>
-        <p>{producto.PropProducto.Descripcion}</p>
+        {/* <p>{producto.PropProducto.Descripcion}</p> quiza esto lo ponga o no */}
         {/* <span>{productos.PropProducto.Puntos}</span> */}
         <button className="button-normal" onClick={() => agregarAlCarrito(email, rut, producto.ObjectId, 1)}>Agregar al carrito</button>
         <button className="button-normal" onClick={() => verProducto(producto)}>Ver</button>
