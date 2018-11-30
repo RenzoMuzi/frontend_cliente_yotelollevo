@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom
 import axios from '../../services/api/api'
 import ListProductos from '../../components/ListProductos/ListProductos'
 import HeaderEmpresa from '../../components/HeaderEmpresa/HeaderEmpresa'
-import Carrito from '../../components/Carrito/Carrito'
+import Carrito from '../Carrito/Carrito'
 import Producto from '../../components/Producto/Producto'
 
 Modal.setAppElement('#root');
@@ -23,7 +23,7 @@ class Empresa extends Component {
     vistaProducto: false,
     ////////
     vistaCarrito: false,
-    carrito: {},
+    // carrito: {},
     carritoUpdates: false,
     // categoriasProductos: [], ver si va o no
     nombreEmpresa: "",
@@ -267,7 +267,10 @@ class Empresa extends Component {
 
         {this.state.vistaCarrito
           ?
-          <Carrito carrito={this.state.carrito} />
+          <Carrito 
+            emailCliente={this.state.emailCliente}
+            rut={this.props.match.params.rut}
+          />
           :
           this.state.vistaProducto
             ?
@@ -275,7 +278,7 @@ class Empresa extends Component {
               producto={this.state.productoActual}
               cerrarProducto={this.cerrarProducto}
               agregarAlCarrito={this.agregarAlCarrito}
-              email={this.state.emailCliente}
+              emailCliente={this.state.emailCliente}
               rut={this.props.match.params.rut} 
             />
             :

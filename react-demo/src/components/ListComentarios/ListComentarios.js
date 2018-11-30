@@ -13,17 +13,17 @@ class ListComentarios extends Component {
   }
 
   addComentario = (comentario, email, rut, productId) => {
-    axios.post('ComentarioProducto', {
+    axios.post('ComentarProducto', {
       Comentario: comentario,
       Email: email,
       ObjectIdProducto: productId,
       Rut: rut
     })
       .then(({ data }) => {
-        if (data.state == 201) {
+        if (data.status == 201) {
           this.setState({
             comentarioActual: ""
-          })
+          }, () => this.props.verComentariosProducto(rut, productId))
         } else {
 
         }
@@ -49,8 +49,8 @@ class ListComentarios extends Component {
         {(this.props.comentarios) &&
           this.props.comentarios.map((comentario, index) =>
             <div key={index}>
-              <p>{comentario.comentario}</p>
-              <span>{comentario.Email}</span><span>{comentario.Fecha}</span>
+              <p>{comentario.Comentario}</p>
+              <span>{comentario.Email}</span><span>{comentario.FechaFront}</span>
             </div>
           )}
       </div>

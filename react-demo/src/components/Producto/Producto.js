@@ -24,9 +24,9 @@ class Producto extends Component {
       .then(({ data }) => {
         console.log(data);
         if (data.status == 200) {
-          console.log("aca los comentarios", data.Comentarios);
+          console.log("aca los comentarios", data.comentarios);
           this.setState({
-            comentarios: data.Comentarios
+            comentarios: data.comentarios
           });
         } else {
           console.log("se ve que hubo un problema obteniendo los comentarios")
@@ -40,9 +40,10 @@ class Producto extends Component {
         <h3>{this.props.producto.PropProducto.Nombre}</h3>
         <img src={this.props.producto.Imagenes}></img>
         <p>{this.props.producto.PropProducto.Descripcion}</p>
-        <button className="button-normal" onClick={() => this.props.agregarAlCarrito(this.props.email, this.props.rut, this.props.producto.ObjectId, 1)}>comprar</button>
+        <button className="button-normal" onClick={() => this.props.agregarAlCarrito(this.props.emailCliente, this.props.rut, this.props.producto.ObjectId, 1)}>comprar</button>
         <button className="button-normal" onClick={this.props.cerrarProducto}>volver</button>
         <ListComentarios
+          verComentariosProducto={this.VerComentariosProducto}
           comentarios={this.state.comentarios}
           productId={this.props.producto.ObjectId}
           emailCliente={this.props.emailCliente}
