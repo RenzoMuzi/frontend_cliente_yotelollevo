@@ -1,0 +1,26 @@
+.wrapper-carrito {
+  margin: 0px auto;
+  width: 60%;
+  margin-top: 50px;
+  height: 400px;
+  overflow-y: auto;
+}
+
+.row-carrito {
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  padding: 5px;
+  border-bottom: 0.5px solid var(--border-main);
+  font-size: 0.7rem;
+}
+
+.wrapper-imagen-carrito {
+  height: 80px;
+  width: 80px;
+  overflow: hidden;
+}
+
+.total-paypal {
+  float: right;
+}

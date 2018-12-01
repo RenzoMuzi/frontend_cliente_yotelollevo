@@ -1,8 +1,13 @@
 .header-wrapper {
+  position: sticky;
+  top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 5px 65px;
+  z-index: 6;
+  background-color: var(--background-header);
+  border-bottom: 0.5px solid var(--border-main);
 }
 
 .brand-logo-header {

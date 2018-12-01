@@ -237,7 +237,7 @@ class GeoLocationComponent extends Component {
           style={customStyles}
           contentLabel="direccion modal"
         >
-          <h2 ref={subtitle => this.subtitle = subtitle}>Escribe tu direccion</h2>
+          <h2>Escribe tu direccion</h2>
           <Geosuggest
             placeholder="Ingresa la direccion de envio"
             onSuggestSelect={this.onSuggestSelect}

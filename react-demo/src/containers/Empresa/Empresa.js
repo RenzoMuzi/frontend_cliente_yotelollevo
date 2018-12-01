@@ -283,8 +283,6 @@ class Empresa extends Component {
             />
             :
             <div>
-              <h1>holaaaa soy empresa</h1>
-              <h2>{match.params.rut}</h2>
               {this.state.productos &&
                 <ListProductos
                   productos={this.state.productos}

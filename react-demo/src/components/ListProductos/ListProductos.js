@@ -1,13 +1,16 @@
 import React from 'react'
 
 const ListProductos = ({ productos, verProducto, agregarAlCarrito, email, rut}) => (
-  <div>
+  <div className="wrapper-lista-productos">
     {productos.map(producto => (
-      <div key={producto.ObjectId}>
-        <p>aca hay un producto</p>
-        <h3>{producto.PropProducto.Nombre}</h3>
-        <img src={producto.Imagenes}></img>
-        {/* <p>{producto.PropProducto.Descripcion}</p> quiza esto lo ponga o no */}
+      <div className="card-producto" key={producto.ObjectId}>
+        <div className="wrapper-lista-productos-imagen">
+          <img src={producto.Imagenes} />
+        </div>
+        <div className="wrapper-lista-descripcion-producto">
+          <h4>{producto.PropProducto.Nombre}</h4>
+          <p>{producto.PropProducto.Descripcion}</p> 
+        </div>
         {/* <span>{productos.PropProducto.Puntos}</span> */}
         <button className="button-normal" onClick={() => agregarAlCarrito(email, rut, producto.ObjectId, 1)}>Agregar al carrito</button>
         <button className="button-normal" onClick={() => verProducto(producto)}>Ver</button>

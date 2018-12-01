@@ -36,12 +36,21 @@ class Producto extends Component {
 
   render() {
     return (
-      <div>
+      <div className="wrapper-producto">
         <h3>{this.props.producto.PropProducto.Nombre}</h3>
-        <img src={this.props.producto.Imagenes}></img>
-        <p>{this.props.producto.PropProducto.Descripcion}</p>
-        <button className="button-normal" onClick={() => this.props.agregarAlCarrito(this.props.emailCliente, this.props.rut, this.props.producto.ObjectId, 1)}>comprar</button>
-        <button className="button-normal" onClick={this.props.cerrarProducto}>volver</button>
+        <div className="wrapper-producto-imagen">
+          <img src={this.props.producto.Imagenes} />
+        </div>
+        <div className="wrapper-descripcion">
+          <p>Descripcion:</p>
+          <p>{this.props.producto.PropProducto.Descripcion}</p>
+          <div className="wrapper-boton-comprar">
+            <button className="button-normal" onClick={() => this.props.agregarAlCarrito(this.props.emailCliente, this.props.rut, this.props.producto.ObjectId, 1)}>comprar</button>
+            <button className="button-normal" onClick={this.props.cerrarProducto}>volver</button>
+          </div>
+        </div>
+
+
         <ListComentarios
           verComentariosProducto={this.VerComentariosProducto}
           comentarios={this.state.comentarios}

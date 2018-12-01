@@ -33,9 +33,10 @@ class ListComentarios extends Component {
   render() {
     return (
       <div>
-        <textarea
+        <textarea rows="4" className="text-area"
           value={this.state.comentarioActual}
           onChange={(e) => this.handleOnchangeComentarioActual(e.target.value)}
+          placeholder="Escribe un comentario..."
         />
         <button className="button-normal"
           onClick={() => this.addComentario(
@@ -48,9 +49,9 @@ class ListComentarios extends Component {
         </button>
         {(this.props.comentarios) &&
           this.props.comentarios.map((comentario, index) =>
-            <div key={index}>
+            <div className="wrapper-comentario" key={index}>
               <p>{comentario.Comentario}</p>
-              <span>{comentario.Email}</span><span>{comentario.FechaFront}</span>
+              <span className="details-comentario">{comentario.Email}</span><span className="details-comentario flo-right">{comentario.FechaFront}</span>
             </div>
           )}
       </div>
