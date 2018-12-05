@@ -7,7 +7,6 @@ import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom
 import MapContainer from '../MapContainer/MapContainer'
 import axio from '../../services/api/api'
 import ListEmpresas from '../../components/ListEmpresas/ListEmpresas'
-import ClientProfile from '../../containers/ClientProfile/ClientProfile'
 import ListRubros from '../../components/ListRubros/ListRubros'
 
 Modal.setAppElement('#root');
@@ -76,36 +75,7 @@ class GeoLocationComponent extends Component {
     })
   }
 
-  addDireccion = (direccion, longitud, latitud, email) => {
-    axio.post('AgregarDireccionCliente', {
-      Email: email,
-      Direccion: direccion,
-      Longitud: longitud,
-      Latitud: latitud,
-    })
-      .then(({ data }) => {
-        if (data.status == 201) {
-          this.getDireccionesCliente(email);
-        } else {
-          console.log("se ve que no se pudo agregar la direccion")
-        }
-      })
-  }
-
-  deleteDireccion = (idDireccion, email) => {
-    axio.delete('BorrarDireccionCliente', {
-      data: {
-        GuidDireccion: idDireccion
-      }
-    })
-      .then(({ data }) => {
-        if (data.status == 200) {
-          this.getDireccionesCliente(email);
-        } else {
-          console.log("se ve que no se pudo borrar la direccion");
-        }
-      })
-  }
+ 
 
   getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -167,7 +137,6 @@ class GeoLocationComponent extends Component {
       console.log(error, "se ve que no se pudo conectar con la api")
     })
 
-    console.log(this.state.address, "holaa");
   }
 
   irEmpresa = (rut) => {
@@ -189,7 +158,6 @@ class GeoLocationComponent extends Component {
   onSuggestSelect = (suggest) => {
     if (suggest) {
       const { location: { lat, lng }, description } = suggest
-      console.log(lat, lng, description)
       const newAdress = {
         dir: description,
         lat: lat,
@@ -200,7 +168,6 @@ class GeoLocationComponent extends Component {
         addressIsSetted: true,
         enterprices: []
       }, this.getEmpresas(this.state.rubroEmpresas, this.state.paginasEmpresas, this.state.address.lat, this.state.address.lng))
-      console.log(this.state.address)
     }
   }
 
@@ -208,6 +175,22 @@ class GeoLocationComponent extends Component {
     this.setState({
       aside: !this.state.aside
     })
+  }
+
+  addDireccion = (direccion, longitud, latitud, email) => {
+    axio.post('AgregarDireccionCliente', {
+      Email: email,
+      Direccion: direccion,
+      Longitud: longitud,
+      Latitud: latitud,
+    })
+      .then(({ data }) => {
+        if (data.status == 201) {
+          
+        } else {
+          console.log("se ve que no se pudo agregar la direccion")
+        }
+      })
   }
 
   render() {
@@ -257,6 +240,14 @@ class GeoLocationComponent extends Component {
                 radius="20"
               />
               <div>
+              <div>
+                <p>
+                  <span className="list-direccion">{this.state.address.dir}</span>
+                  <button className="button-normal" onClick={() => this.addDireccion(this.state.address.dir, this.state.address.lat, this.state.address.lng, this.props.emailCliente)}>
+                    Agregar
+                  </button>
+                </p>
+              </div>
                 donde desea comprar?
             </div>
               <ListRubros

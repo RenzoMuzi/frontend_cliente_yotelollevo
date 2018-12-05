@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect, Link } from 'react-router-dom'
 
-const HeaderComponent = ({ nombreCliente, fotoCliente, logout }) => (
+const HeaderComponent = ({ emailCliente, nombreCliente, fotoCliente, logout }) => (
   <div className="header-wrapper">
     <div>
       <img className="brand-logo-header" src='/src/assets/package.png'></img>
@@ -12,7 +12,7 @@ const HeaderComponent = ({ nombreCliente, fotoCliente, logout }) => (
       <div className="header-client-picture" >
         <img src={fotoCliente} />
       </div>
-      <Link to="/perfilCliente">{nombreCliente}</Link>
+      <Link to={`/perfilCliente/${emailCliente}`}>{nombreCliente}</Link>
     </div>
 
     <div>

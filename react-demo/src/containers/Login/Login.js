@@ -1,4 +1,4 @@
-import React, { PureComponent, Component } from 'react'
+import React, { Component } from 'react'
 import Aux from '../../hoc/Auxiliar'
 import axio from '../../services/api/api'
 import { Redirect, Link } from 'react-router-dom'
@@ -28,7 +28,7 @@ class Login extends Component {
         IdFacebook: response.userID
       };
       /// borrar esto, es para que ya te redirija a la pagina de usuario
-      sessionStorage.setItem('infoUsuario', JSON.stringify(datosUsuario));
+      // sessionStorage.setItem('infoUsuario', JSON.stringify(datosUsuario));
       /////
       axio.post('IniciarSesionPorFacebook', datosUsuario)
         .then((res) => {

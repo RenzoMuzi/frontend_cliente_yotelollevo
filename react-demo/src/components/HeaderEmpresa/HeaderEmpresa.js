@@ -13,7 +13,7 @@ const HeaderEmpresa = ({ rut, email, nombreEmpresa, fotoEmpresa, fotoCliente, no
       <div className="header-client-picture" >
         <img src={fotoCliente} />
       </div>
-      <Link to="/perfilCliente">{nombreCliente}</Link>
+      <Link to={`/perfilCliente/${email}`}>{nombreCliente}</Link>
     </div>
 
     <div>

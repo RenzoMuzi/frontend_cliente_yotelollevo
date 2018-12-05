@@ -1,18 +1,18 @@
 import React from 'react'
 
-const ListDirecciones = ({ emailCliente, direccionActual, direcciones, selectDireccion, addDireccion, deleteDireccion }) => (
+const ListDirecciones = ({ emailCiente, direcciones, deleteDireccion }) => (
   <div>
-    <p>
+    {/* <p>
       <span className="list-direccion">{direccionActual.dir}</span>
       <button className="button-normal" onClick={() => addDireccion(direccionActual.dir, direccionActual.lat, direccionActual.lng, emailCliente)}>
         Agregar
       </button>
-    </p>
+    </p> */}
     <ul>
       {direcciones.map(direccion => (
         <li key={direccion.GuidDireccion}>
-          <a onClick={(direccion) => selectDireccion(direccion)}>{direccion.Direccion}</a>
-          <button onClick={() => deleteDireccion(direccion.GuidDireccion)}>Eliminar</button>
+          <p>{direccion.Direccion}</p>
+          <button onClick={() => deleteDireccion(direccion.GuidDireccion, emailCiente)}>Eliminar</button>
         </li>
       ))}
     </ul>

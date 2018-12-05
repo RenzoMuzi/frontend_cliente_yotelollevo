@@ -7,6 +7,7 @@ import ListProductos from '../../components/ListProductos/ListProductos'
 import HeaderEmpresa from '../../components/HeaderEmpresa/HeaderEmpresa'
 import Carrito from '../Carrito/Carrito'
 import Producto from '../../components/Producto/Producto'
+import ListCategorias from '../../components/ListCategorias/ListCategorias';
 
 Modal.setAppElement('#root');
 
@@ -21,6 +22,8 @@ class Empresa extends Component {
     productoActual: {},
     paginasProducto: 0,
     vistaProducto: false,
+    categorias: [],
+    categoriaActual: "",
     ////////
     vistaCarrito: false,
     // carrito: {},
@@ -43,7 +46,8 @@ class Empresa extends Component {
       this.setState({ redirectLogin: true })
     }
     // this.getCatergoriasProductos();
-    this.getProductos(this.props.match.params.rut, this.state.paginasProducto);
+    this.getProductos(this.props.match.params.rut, this.state.paginasProducto, null);
+    this.getCatergoriasProductos(this.props.match.params.rut);
   }
 
   verEmpresa = (rut) => {
@@ -150,11 +154,30 @@ class Empresa extends Component {
     })
   }
 
-  // getCatergoriasProductos = () => {
-  //   axios
-  // }
+  getCatergoriasProductos = (rut) => {
+    axios.get('ListarCategorias', {params: {
+      rut: rut
+    }})
+    .then(({ data }) => {
+      if (data.status == 200) {
+        this.setState({
+          categorias: data.categorias
+        })
+      } else {
+        console.log("se ve que no se pudo obtener las categorias");
+      }
+    })
+  }
 
-  getProductos = (rut, index) => {
+  chooseCategoria = (categoria) => {
+    this.setState({
+      categoriaActual: categoria
+    }, () => {
+      this.getProductos(this.props.match.params.rut, this.state.paginasProducto, this.state.categoriaActual)
+    })
+  }
+
+  getProductos = (rut, index, guidCategoria) => {
     // axios.get('ObtenerProductos', {
     //   params: {
     //     rut: rut,
@@ -163,7 +186,9 @@ class Empresa extends Component {
     // })
     axios.get('ListarProductos', {
       params: {
-        rut: rut
+        rut: rut,
+        index: index,
+        guidCategoria: guidCategoria
       }
     })
       .then(({ data }) => {
@@ -267,7 +292,7 @@ class Empresa extends Component {
 
         {this.state.vistaCarrito
           ?
-          <Carrito 
+          <Carrito
             emailCliente={this.state.emailCliente}
             rut={this.props.match.params.rut}
           />
@@ -279,18 +304,24 @@ class Empresa extends Component {
               cerrarProducto={this.cerrarProducto}
               agregarAlCarrito={this.agregarAlCarrito}
               emailCliente={this.state.emailCliente}
-              rut={this.props.match.params.rut} 
+              rut={this.props.match.params.rut}
             />
             :
             <div>
               {this.state.productos &&
-                <ListProductos
-                  productos={this.state.productos}
-                  verProducto={this.verProducto}
-                  agregarAlCarrito={this.agregarAlCarrito}
-                  email={this.state.emailCliente}
-                  rut={this.props.match.params.rut}
-                />}
+                <div>
+                  <ListCategorias
+                    categorias={this.state.categorias}
+                    chooseCategoria={this.chooseCategoria}
+                  />
+                  <ListProductos
+                    productos={this.state.productos}
+                    verProducto={this.verProducto}
+                    agregarAlCarrito={this.agregarAlCarrito}
+                    email={this.state.emailCliente}
+                    rut={this.props.match.params.rut}
+                  />
+                </div>}
             </div>
         }
 
