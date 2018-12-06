@@ -7,3 +7,11 @@
   text-overflow: ellipsis;
   max-width: 200px;
 }
+
+.wrapper-list-direccion {
+  margin: 0px;
+}
+
+.direccion-actual {
+  padding-left: 15px;
+}

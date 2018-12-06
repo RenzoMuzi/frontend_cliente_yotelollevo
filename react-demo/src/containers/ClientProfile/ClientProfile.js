@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import Geosuggest from 'react-geosuggest'
+import { Redirect } from 'react-router-dom'
 
 import ListDirecciones from '../../components/ListDirecciones/ListDirecciones'
 import axio from '../../services/api/api'
-
+import HeaderComponent from '../../components/HeaderComponent/HeaderComponent'
 class ClientProfile extends Component {
   state = {
     direccionesCliente: [],
@@ -16,7 +17,8 @@ class ClientProfile extends Component {
       lat: 0,
       lng: 0
     },
-    addressIsSetted: false
+    addressIsSetted: false,
+    ordenes: []
   }
 
   componentDidMount() {
@@ -24,14 +26,18 @@ class ClientProfile extends Component {
       var infoUsuario = JSON.parse(sessionStorage.getItem('infoUsuario'));
       this.verInfoCLiente(infoUsuario.Email);
       this.getDireccionesCliente(infoUsuario.Email);
+      this.getOrdenesCliente(infoUsuario.Email);
     } else {
       this.setState({ redirectLogin: true })
     }
 
   }
 
-
-
+  logout = () => {
+    sessionStorage.setItem('infoUsuario', '');
+    sessionStorage.clear();
+    this.setState({ redirectLogin: true })
+  }
 
   verInfoCLiente = (email) => {
     axio.get('VerInfoCliente', {
@@ -60,6 +66,21 @@ class ClientProfile extends Component {
           this.setState({ direccionesCliente: data.direcciones })
         } else {
           console.log("se ve que no tiene direcciones o hubo un error")
+        }
+      })
+  }
+
+  getOrdenesCliente = (email) => {
+    axio.get('ListarOrdenesDeCliente', {
+      params: {
+        email: email
+      }
+    })
+      .then(({ data })=> {
+        if (data.status == 200) {
+          this.setState({ ordenes: data.ordenes })
+        } else {
+          console.log("se ve que no se pudo obtener las ordenes")
         }
       })
   }
@@ -110,8 +131,18 @@ class ClientProfile extends Component {
   }
 
   render() {
+    if (this.state.redirectLogin) {
+      return (<Redirect to={'/login'} />)
+    }
+
     return (
       <div>
+        <HeaderComponent
+          emailCliente={this.state.emailCliente}
+          nombreCliente={this.state.nombreCliente}
+          fotoCliente={this.state.fotoCliente}
+          logout={this.logout}
+        />
         <p>{this.state.emailCliente}</p>
         <img style={imgStyle} src={this.state.fotoCliente} />
 

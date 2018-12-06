@@ -178,12 +178,6 @@ class Empresa extends Component {
   }
 
   getProductos = (rut, index, guidCategoria) => {
-    // axios.get('ObtenerProductos', {
-    //   params: {
-    //     rut: rut,
-    //     index: index
-    //   }
-    // })
     axios.get('ListarProductos', {
       params: {
         rut: rut,

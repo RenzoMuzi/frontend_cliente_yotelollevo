@@ -43,7 +43,7 @@ class Carrito extends Component {
       TransaccionPaypal: transaccionPaypal
     })
       .then(({ data }) => {
-        if (data.status == 201) {
+        if (data.status == 200) {
           this.setState({
             messageModal: "Realizado"
           }, () => {
@@ -119,7 +119,7 @@ class Carrito extends Component {
               <div>Cantidad</div>
               <div>Sub Total</div>
             </div>
-            {this.state.carrito.Productos.map(prod => {
+            {this.state.carrito && this.state.carrito.Productos.map(prod => {
               total += prod.Cantidad * prod.PropProducto.Precio
               return (
                 <div key={prod.ObjectId} className="row-carrito">

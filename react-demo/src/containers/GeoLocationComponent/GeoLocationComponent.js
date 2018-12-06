@@ -204,16 +204,7 @@ class GeoLocationComponent extends Component {
 
     return (
       <div>
-        {/* <ClientProfile
-          emailCliente={this.props.emailCliente}
-          nombreCliente={this.props.nombreCliente}
-          fotoCliente={this.props.fotoCliente}
-          direccionesCliente={this.state.direccionesCliente}
-          direccionActual={this.state.address}
-          selectDireccion={this.selectDireccion}
-          addDireccion={this.addDireccion}
-          deleteDireccion={this.deleteDireccion}
-        /> */}
+
         <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
@@ -240,7 +231,7 @@ class GeoLocationComponent extends Component {
                 radius="20"
               />
               <div>
-              <div>
+              <div className="direccion-actual">
                 <p>
                   <span className="list-direccion">{this.state.address.dir}</span>
                   <button className="button-normal" onClick={() => this.addDireccion(this.state.address.dir, this.state.address.lat, this.state.address.lng, this.props.emailCliente)}>
