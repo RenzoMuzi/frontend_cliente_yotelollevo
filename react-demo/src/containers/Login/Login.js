@@ -9,6 +9,7 @@ class Login extends Component {
   state = {
     emailUsuario: '',
     claveUsuario: '',
+    nombreUsuario: '',
     redirect: false,
     registrarse: false
   }
@@ -53,24 +54,36 @@ class Login extends Component {
         email: emailUsuario,
         clave: claveUsuario
       })
-        .then((res) => {
-          if (res.status == 200) {
-            const infoUsuario = {
-              Email: emailUsuario,
-              Nombre: claveUsuario,
-              Token: res.data.message
-            } 
-            sessionStorage.setItem('infoUsuario', JSON.stringify(infoUsuario));
-            if (sessionStorage.getItem('infoUsuario')) {
-              this.setState({ redirect: true })
-            }
+        .then(({ data }) => {
+          if (data.status == 200) {
+            axio.get('VerInfoCliente', {
+              params: {
+                email: emailUsuario
+              }
+            })
+              .then(({ data }) => {
+                if (data.status == 200) {
+                  const infoUsuario = {
+                    Email: emailUsuario,
+                    Nombre: data.cliente.Nombre,
+                    Foto: data.cliente.Foto,
+                    Token: data.message,
+                  }
+                  sessionStorage.setItem('infoUsuario', JSON.stringify(infoUsuario));
+                  if (sessionStorage.getItem('infoUsuario')) {
+                    this.setState({ redirect: true })
+                  }
+                } else {
+                  console.log("se ve que no se pudieron obtener los datos del usuario")
+                }
+              })
           } else {
             console.log("error al loguearse")
           }
         })
     }
   }
-
+ 
   submitLoginHandler = (e) => {
     e.preventDefault();
     const { emailUsuario, claveUsuario } = this.state;
@@ -86,7 +99,7 @@ class Login extends Component {
     this.setState({ registrarse: !this.state.registrarse });
   }
 
-  
+
 
   render() {
     if (this.state.redirect) {

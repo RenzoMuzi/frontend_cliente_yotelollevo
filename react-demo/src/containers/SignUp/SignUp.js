@@ -13,14 +13,16 @@ class SignUp extends Component {
         nombreUsuario: '',
         emailUsuario: '',
         claveUsuario: '',
+        fotoUsuario: 'https://res.cloudinary.com/dnieertcs/image/upload/v1541794697/Profile-Default.jpg',
     }
 
-    signUp = (nombreUsuario, emailUsuario, claveUsuario,) => {
-      if ((emailUsuario !== '')&&(claveUsuario !== '')&&(nombreUsuario)) {
+    signUp = (nombreUsuario, emailUsuario, claveUsuario, fotoUsuario) => {
+      if ((emailUsuario !== '')&&(claveUsuario !== '')&&(nombreUsuario)&&(fotoUsuario !== '')) {
         axio.post('RegistrarCliente', {       ///aca cambiar el /post por algo asi como /signin
           Nombre: nombreUsuario,
           Email: emailUsuario,
-          Clave: claveUsuario
+          Clave: claveUsuario,
+          Foto: fotoUsuario
         })
         .then((res) => {
           if (res.data.status == 200) {
@@ -34,8 +36,8 @@ class SignUp extends Component {
 
     submitLoginHandler = (e) => {
       e.preventDefault();
-      const {nombreUsuario, emailUsuario, claveUsuario} = this.state;
-      this.signUp(nombreUsuario, emailUsuario, claveUsuario);
+      const {nombreUsuario, emailUsuario, claveUsuario, fotoUsuario} = this.state;
+      this.signUp(nombreUsuario, emailUsuario, claveUsuario, fotoUsuario);
     }
 
     changeInputHandler = (e) => {
@@ -112,17 +114,6 @@ export default SignUp;
 
 const customStyles = {
   content : {
-    
-      // width:'50%',
-      // height:'30%',
-      // margin:'0 auto',
-      // background:'#f7f7f7',
-      // position:'absolute',
-      // left:'40%',
-      // top:'50%',
-      // marginLeft:'-250px',
-      // marginTop:'-250px',
-
       width: '60vw', /*optional*/
       height: '30vh',
       margin: 'auto',
