@@ -1,8 +1,8 @@
 import React from 'react'
-import { Redirect, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { FaShoppingCart } from 'react-icons/fa'
 
-const HeaderEmpresa = ({ rut, email, nombreEmpresa, fotoEmpresa, fotoCliente, nombreCliente, volverYateLoLLevo, verCarrito }) => (
+const HeaderEmpresa = ({ rut, email, nombreEmpresa, fotoEmpresa, fotoCliente, nombreCliente, volverYateLoLLevo, verCarrito, promoPuntosCliente }) => (
   <div className="header-wrapper">
     <div>
       <img className="brand-logo-header" src={fotoEmpresa}></img>
@@ -15,7 +15,9 @@ const HeaderEmpresa = ({ rut, email, nombreEmpresa, fotoEmpresa, fotoCliente, no
       </div>
       <Link to={`/perfilCliente/${email}`}>{nombreCliente}</Link>
     </div>
-
+    <div>
+      promo puntos: {promoPuntosCliente}
+    </div>
     <div>
       <FaShoppingCart onClick={() => verCarrito(email,rut)} />
     </div>

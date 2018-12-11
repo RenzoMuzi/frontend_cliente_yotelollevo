@@ -44,12 +44,14 @@ class Producto extends Component {
         <div className="wrapper-descripcion">
           <p>Descripcion:</p>
           <p>{this.props.producto.PropProducto.Descripcion}</p>
+          <span>U$D - {this.props.producto.PropProducto.Precio}</span>
+          <br/>
+          <span>puntos - {this.props.producto.PropProducto.Puntos}</span>
           <div className="wrapper-boton-comprar">
             <button className="button-normal" onClick={() => this.props.agregarAlCarrito(this.props.emailCliente, this.props.rut, this.props.producto.ObjectId, 1)}>comprar</button>
             <button className="button-normal" onClick={this.props.cerrarProducto}>volver</button>
           </div>
         </div>
-
 
         <ListComentarios
           verComentariosProducto={this.VerComentariosProducto}

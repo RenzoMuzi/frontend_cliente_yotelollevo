@@ -140,6 +140,7 @@ class GeoLocationComponent extends Component {
   }
 
   irEmpresa = (rut) => {
+    sessionStorage.setItem('direccionActual', JSON.stringify(this.state.address));
     this.setState({
       redirigirEmpresa: rut
     })

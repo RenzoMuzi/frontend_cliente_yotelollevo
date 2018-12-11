@@ -33,14 +33,16 @@ class Empresa extends Component {
     fotoEmpresa: "",
     nombreCliente: "",
     fotoCliente: "",
-    emailCliente: ""
+    emailCliente: "",
+    promoPuntosCliente: ""
   }
 
   componentDidMount() {
     this.verEmpresa(this.props.match.params.rut);
     if (sessionStorage.getItem('infoUsuario')) {
-      var infoUsuario = JSON.parse(sessionStorage.getItem('infoUsuario'));
+      var infoUsuario = JSON.parse(sessionStorage.getItem('infoUsuario'));      
       this.verInfoCLiente(infoUsuario.Email);
+      this.verPromoPuntos(infoUsuario.Email, this.props.match.params.rut);
       this.tienePermisoUsuario(this.props.match.params.rut, infoUsuario.Email);
     } else {
       this.setState({ redirectLogin: true })
@@ -84,6 +86,22 @@ class Empresa extends Component {
           })
         } else {
           console.log("parece que no se pudo obtener la info del cliente")
+        }
+      })
+  }
+
+  verPromoPuntos = (email, rut) => {
+    axios.post('VerPromoPuntosCliente', {
+      Email: email,
+      Rut: rut
+    })
+      .then(({ data }) => {
+        if (data.status == 200) {
+          this.setState({
+            promoPuntosCliente: data.message
+          })
+        } else {
+          console.log("se ve que no se pueden cargar los puntos");
         }
       })
   }
@@ -155,18 +173,20 @@ class Empresa extends Component {
   }
 
   getCatergoriasProductos = (rut) => {
-    axios.get('ListarCategorias', {params: {
-      rut: rut
-    }})
-    .then(({ data }) => {
-      if (data.status == 200) {
-        this.setState({
-          categorias: data.categorias
-        })
-      } else {
-        console.log("se ve que no se pudo obtener las categorias");
+    axios.get('ListarCategorias', {
+      params: {
+        rut: rut
       }
     })
+      .then(({ data }) => {
+        if (data.status == 200) {
+          this.setState({
+            categorias: data.categorias
+          })
+        } else {
+          console.log("se ve que no se pudo obtener las categorias");
+        }
+      })
   }
 
   chooseCategoria = (categoria) => {
@@ -250,8 +270,27 @@ class Empresa extends Component {
       })
   }
 
+  comprarProductoConPuntos = (rut, email, direccion, productId) => {
+    axios.post('ComprarProductoConPuntos', {
+      Rut: rut,
+      Email: email,
+      Direccion: direccion,
+      GuidProducto: productId,
+    })
+      .then(({ data }) => {
+        if (data.status == 200) {
+          console.log("se canjeo el producto");
+          this.verPromoPuntos(email, rut);
+        } else {
+          console.log("se ve que nose pudo canjear los puntos");
+        }
+      })
+  }
+
   render() {
     const { match } = this.props;
+    const direccionRaw = JSON.parse(sessionStorage.getItem('direccionActual'));
+    const direccionActual = direccionRaw.dir;
 
     if (this.state.redirectLogin) {
       return <Redirect to={'/login'} />
@@ -271,7 +310,7 @@ class Empresa extends Component {
           verCarrito={this.verCarrito}
           email={this.state.emailCliente}
           verProducto={this.verProducto}
-
+          promoPuntosCliente={this.state.promoPuntosCliente}
         />
         <Modal
           isOpen={this.state.openModalPermiso}
@@ -314,6 +353,8 @@ class Empresa extends Component {
                     agregarAlCarrito={this.agregarAlCarrito}
                     email={this.state.emailCliente}
                     rut={this.props.match.params.rut}
+                    direccion={direccionActual}
+                    comprarProductoConPuntos={this.comprarProductoConPuntos}
                   />
                 </div>}
             </div>

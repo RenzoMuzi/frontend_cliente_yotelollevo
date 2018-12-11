@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Geosuggest from 'react-geosuggest'
 import { Redirect } from 'react-router-dom'
 
+import ListOrdenes from '../../components/ListOrdenes/ListOrdenes'
 import ListDirecciones from '../../components/ListDirecciones/ListDirecciones'
 import axio from '../../services/api/api'
 import HeaderComponent from '../../components/HeaderComponent/HeaderComponent'
@@ -18,7 +19,8 @@ class ClientProfile extends Component {
       lng: 0
     },
     addressIsSetted: false,
-    ordenes: []
+    ordenes: [],
+    ratingEmpresa: 0
   }
 
   componentDidMount() {
@@ -30,7 +32,6 @@ class ClientProfile extends Component {
     } else {
       this.setState({ redirectLogin: true })
     }
-
   }
 
   logout = () => {
@@ -76,7 +77,7 @@ class ClientProfile extends Component {
         email: email
       }
     })
-      .then(({ data })=> {
+      .then(({ data }) => {
         if (data.status == 200) {
           this.setState({ ordenes: data.ordenes })
         } else {
@@ -130,6 +131,40 @@ class ClientProfile extends Component {
     }
   }
 
+  puntuarProducto = (nextValue, rut, email, guidProducto, guidOrden) => {
+    axio.post('PuntuarProducto', {
+      Rut: rut,
+      Email: email,
+      GuidProducto: guidProducto,
+      CantEstrellas: nextValue,
+      GuidOrden: guidOrden
+    })
+      .then(({ data }) => {
+        if (data.status == 200) {
+          console.log("se puntuo el producto")
+        } else {
+          console.log("se ve que no se pudo puntuar el producto")
+        }
+      })
+    // console.log(nextValue)
+  }
+
+  puntuarEmpresa = (nextValue, rut, guidOrden) => {
+    axio.post('PuntuarEmpresa', {
+      Rut: rut,
+      IdOrden: guidOrden,
+      Puntaje: nextValue
+    })
+      .then(({ data })=> {
+        if (data.status == 200) {
+          console.log("se puntuo la empresa")
+        } else {
+          console.log("se ve que no se pudo puntuar la empresa")
+        }
+      })
+    // console.log(nextValue)
+  }
+
   render() {
     if (this.state.redirectLogin) {
       return (<Redirect to={'/login'} />)
@@ -167,7 +202,13 @@ class ClientProfile extends Component {
             deleteDireccion={this.deleteDireccion}
           />
         }
-
+        {this.state.ordenes != [] &&
+          <ListOrdenes
+            ordenes={this.state.ordenes}
+            puntuarProducto={this.puntuarProducto}
+            puntuarEmpresa={this.puntuarEmpresa}
+          />
+        }
       </div>
     )
   }
