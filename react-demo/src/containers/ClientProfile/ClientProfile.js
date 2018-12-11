@@ -155,7 +155,7 @@ class ClientProfile extends Component {
       IdOrden: guidOrden,
       Puntaje: nextValue
     })
-      .then(({ data })=> {
+      .then(({ data }) => {
         if (data.status == 200) {
           console.log("se puntuo la empresa")
         } else {
@@ -180,35 +180,40 @@ class ClientProfile extends Component {
         />
         <p>{this.state.emailCliente}</p>
         <img style={imgStyle} src={this.state.fotoCliente} />
-
-        <Geosuggest
-          placeholder="Ingresa la direccion de envio"
-          onSuggestSelect={this.onSuggestSelect}
-          location={new google.maps.LatLng(53.558572, 9.9278215)}
-          radius="20"
-        />
-        <div>
-          <p>
-            <span className="list-direccion">{this.state.address.dir}</span>
-            <button className="button-normal" onClick={() => this.addDireccion(this.state.address.dir, this.state.address.lat, this.state.address.lng, this.state.emailCliente)}>
-              Agregar
+        <div className="addressrelatedwrapper">
+          <Geosuggest
+            placeholder="Ingresa la direccion de envio"
+            onSuggestSelect={this.onSuggestSelect}
+            location={new google.maps.LatLng(53.558572, 9.9278215)}
+            radius="20"
+          />
+          <div>
+            <p>
+              <span className="list-direccion">{this.state.address.dir}</span>
+              <button className="button-normal" onClick={() => this.addDireccion(this.state.address.dir, this.state.address.lat, this.state.address.lng, this.state.emailCliente)}>
+                Agregar
             </button>
-          </p>
+            </p>
+          </div>
+          {this.state.direccionesCliente &&
+            <ListDirecciones
+              direcciones={this.state.direccionesCliente}
+              emailCiente={this.state.emailCliente}
+              deleteDireccion={this.deleteDireccion}
+            />
+          }
         </div>
-        {this.state.direccionesCliente &&
-          <ListDirecciones
-            direcciones={this.state.direccionesCliente}
-            emailCiente={this.state.emailCliente}
-            deleteDireccion={this.deleteDireccion}
-          />
-        }
-        {this.state.ordenes != [] &&
-          <ListOrdenes
-            ordenes={this.state.ordenes}
-            puntuarProducto={this.puntuarProducto}
-            puntuarEmpresa={this.puntuarEmpresa}
-          />
-        }
+
+        <div className="ordenesWrapper">
+          {this.state.ordenes != [] &&
+            <ListOrdenes
+              ordenes={this.state.ordenes}
+              puntuarProducto={this.puntuarProducto}
+              puntuarEmpresa={this.puntuarEmpresa}
+            />
+          }
+        </div>
+
       </div>
     )
   }

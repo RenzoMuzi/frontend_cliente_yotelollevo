@@ -4,7 +4,7 @@ import StarRatingComponent from 'react-star-rating-component';
 const ListOrdenes = ({ ordenes, puntuarProducto, puntuarEmpresa }) =>
   (
     <div>
-      <table>
+      <table className="addressrelatedwrapper">
         <thead>
           <tr>
             <th>Fecha</th>
