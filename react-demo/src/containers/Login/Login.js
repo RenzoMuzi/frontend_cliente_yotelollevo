@@ -110,7 +110,7 @@ class Login extends Component {
       <div className="loginsignupWrapper">
         <div className="imgLogin">
           <picture>
-            <img src="src\assets\package.png" alt="Package" />
+            <img src="https://i.ibb.co/VxFw00t/package.png" alt="Package" />
           </picture>
         </div>
         <div className="centered loginsignupContainer">
