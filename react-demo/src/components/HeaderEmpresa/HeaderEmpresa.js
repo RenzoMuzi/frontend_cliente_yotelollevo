@@ -16,7 +16,7 @@ const HeaderEmpresa = ({ rut, email, nombreEmpresa, fotoEmpresa, fotoCliente, no
       <Link to={`/perfilCliente/${email}`}>{nombreCliente}</Link>
     </div>
     <div>
-      promo puntos: {promoPuntosCliente}
+      promo puntos: {promoPuntosCliente != "null" && promoPuntosCliente}
     </div>
     <div>
       <FaShoppingCart onClick={() => verCarrito(email,rut)} />

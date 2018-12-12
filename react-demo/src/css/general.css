@@ -5,3 +5,7 @@
 .borderBott {
   border-bottom: 0.5px solid var(--border-main);
 }
+
+.borderGrey {
+  border: 0.5px solid var(--border-main);
+}

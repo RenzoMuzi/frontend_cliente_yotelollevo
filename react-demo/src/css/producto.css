@@ -7,13 +7,31 @@
 
 .card-producto {
   padding: 0px 2px 4px 2px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
 }
 
 .wrapper-lista-productos-imagen {
-  width: 200px;
-  height: 200px;
+  width: 295px;
+  height: 295px;
   border: 0.5px solid var(--border-main);
   overflow: hidden;
+  align-self: center;
+}
+.wrapper-lista-descripcion-producto {
+  padding: 0px 7px;
+}
+
+.wrapper-lista-descripcion-producto p {
+  height: 55px;
+  overflow: hidden;
+}
+
+.wrapper-lista-descripcion-producto span {
+  float: right;
+  font-size: 0.8rem;
+  font-weight: bold;
 }
 
 .wrapper-producto {
@@ -33,6 +51,11 @@
 .wrapper-descripcion {
   position: relative;
   padding: 0px 5px;
+}
+
+.wrapper-descripcion span {
+  float: right;
+  font-weight: bold;
 }
 
 .wrapper-boton-comprar {

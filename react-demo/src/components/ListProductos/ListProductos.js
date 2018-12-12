@@ -3,7 +3,7 @@ import React from 'react'
 const ListProductos = ({ productos, verProducto, agregarAlCarrito, comprarProductoConPuntos, email, rut, direccion}) => (
   <div className="wrapper-lista-productos">
     {productos.map(producto => (
-      <div className="card-producto" key={producto.ObjectId}>
+      <div className="card-producto borderGrey" key={producto.ObjectId}>
         <div className="wrapper-lista-productos-imagen">
           <img src={producto.Imagenes[0]} />
         </div>
