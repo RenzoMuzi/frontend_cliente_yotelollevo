@@ -8,7 +8,7 @@ import ClientProfile from './containers/ClientProfile/ClientProfile'
 import Empresa from './containers/Empresa/Empresa'
 
 const Routes = () => (
-  <BrowserRouter >
+  <BrowserRouter basename="/cliente" >
     <Switch>
       <Route exact path="/" component={Login}/>
       <Route exact path="/login" component={Login}/>
