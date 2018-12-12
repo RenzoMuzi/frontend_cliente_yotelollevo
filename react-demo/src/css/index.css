@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Comfortaa|Patua+One');
+@import './general.css';
 @import './loginsignup.css';
 @import './header.css';
 @import './buttons.css';
@@ -9,6 +10,9 @@
 @import './producto.css';
 @import './comentarios.css';
 @import './carrito.css';
+@import './clientprofile.css';
+@import './ordenes.css';
+@import './calificaciones.css';
 
 :root {
     --button-color-main: #ff6a32ba;   
@@ -17,7 +21,9 @@
 }
 
 html {
-    box-sizing: border-box
+    box-sizing: border-box;
+    height: 100%;
+
 }
 
 *, *::before, *::after {
@@ -36,9 +42,14 @@ html {
 body {
     color: #404040;
     font-family: 'Comfortaa', Arial, sans-serif;
-    font-size: 18px;
+    font-size: 17px;
     line-height: 1.5;
     margin: 0px;
+    height: 100%; 
+    overflow: hidden;  /*makes the body non-scrollable (we will add scrolling to the sidebar and main content containers)*/
+    box-sizing: border-box;
+
+
 }
 
 a {

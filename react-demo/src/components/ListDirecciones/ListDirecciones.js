@@ -4,9 +4,9 @@ const ListDirecciones = ({ emailCiente, direcciones, deleteDireccion }) => (
   <div>
     <ul className="wrapper-list-direccion">
       {direcciones.map(direccion => (
-        <li key={direccion.GuidDireccion}>
+        <li className="liDirecciones" key={direccion.GuidDireccion}>
           <p>{direccion.Direccion}</p>
-          <button className="button-normal" onClick={() => deleteDireccion(direccion.GuidDireccion, emailCiente)}>Eliminar</button>
+          <button className="button-normal-small" onClick={() => deleteDireccion(direccion.GuidDireccion, emailCiente)}>Eliminar</button>
         </li>
       ))}
     </ul>

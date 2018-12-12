@@ -5,7 +5,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 5px 65px;
-  z-index: 6;
+  z-index: 3;
   background-color: var(--background-header);
   border-bottom: 0.5px solid var(--border-main);
 }

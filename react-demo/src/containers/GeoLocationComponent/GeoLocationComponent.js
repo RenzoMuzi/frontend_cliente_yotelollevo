@@ -8,6 +8,7 @@ import MapContainer from '../MapContainer/MapContainer'
 import axio from '../../services/api/api'
 import ListEmpresas from '../../components/ListEmpresas/ListEmpresas'
 import ListRubros from '../../components/ListRubros/ListRubros'
+import SelectDirecciones from '../../components/SelectDirecciones/SelectDirecciones'
 
 Modal.setAppElement('#root');
 class GeoLocationComponent extends Component {
@@ -65,17 +66,20 @@ class GeoLocationComponent extends Component {
       })
   }
 
-  selectDireccion = (direccion) => {
+  selectDireccion = (index) => {
+    console.log(this.state.direccionesCliente[index].Direccion, this.state.direccionesCliente[index].Latitud, this.state.direccionesCliente[index].Longitud);
     this.setState({
       address: {
-        dir: direccion.Direccion,
-        lat: direccion.Latitud,
-        lng: direccion.Longitud
-      }
-    })
+        dir: this.state.direccionesCliente[index].Direccion,
+        lat: this.state.direccionesCliente[index].Latitud,
+        lng: this.state.direccionesCliente[index].Longitud,
+      },
+      addressIsSetted: true,
+      enterprices: []
+    }, this.getEmpresas(this.state.rubroEmpresas, this.state.paginasEmpresas, this.state.address.lat, this.state.address.lng))
   }
 
- 
+
 
   getCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -178,7 +182,7 @@ class GeoLocationComponent extends Component {
     })
   }
 
-  addDireccion = (direccion, longitud, latitud, email) => {
+  addDireccion = (direccion, latitud, longitud, email) => {
     axio.post('AgregarDireccionCliente', {
       Email: email,
       Direccion: direccion,
@@ -187,7 +191,7 @@ class GeoLocationComponent extends Component {
     })
       .then(({ data }) => {
         if (data.status == 201) {
-          
+          this.getDireccionesCliente(email);
         } else {
           console.log("se ve que no se pudo agregar la direccion")
         }
@@ -206,7 +210,7 @@ class GeoLocationComponent extends Component {
     return (
       <div>
 
-        <Modal
+        {/* <Modal
           isOpen={this.state.modalIsOpen}
           onRequestClose={this.closeModal}
           style={customStyles}
@@ -219,8 +223,12 @@ class GeoLocationComponent extends Component {
             location={new google.maps.LatLng(53.558572, 9.9278215)}
             radius="20"
           />
+          <SelectDirecciones
+            direcciones={this.state.direccionesCliente}
+            chooseDireccion={this.selectDireccion}
+          />
           <button className="button-normal" onClick={this.closeModal}>close</button>
-        </Modal>
+        </Modal> */}
 
         <div className="clientContentContainer">
           <div className="homeClientLefAside">
@@ -231,15 +239,19 @@ class GeoLocationComponent extends Component {
                 location={new google.maps.LatLng(53.558572, 9.9278215)}
                 radius="20"
               />
+              <SelectDirecciones
+                direcciones={this.state.direccionesCliente}
+                chooseDireccion={this.selectDireccion}
+              />
               <div>
-              <div className="direccion-actual">
-                <p>
-                  <span className="list-direccion">{this.state.address.dir}</span>
-                  <button className="button-normal" onClick={() => this.addDireccion(this.state.address.dir, this.state.address.lat, this.state.address.lng, this.props.emailCliente)}>
-                    Agregar
+                <div className="direccion-actual">
+                  <p>
+                    <span className="list-direccion">{this.state.address.dir}</span>
+                    <button className="button-normal" onClick={() => this.addDireccion(this.state.address.dir, this.state.address.lat, this.state.address.lng, this.props.emailCliente)}>
+                      Agregar
                   </button>
-                </p>
-              </div>
+                  </p>
+                </div>
                 donde desea comprar?
             </div>
               <ListRubros

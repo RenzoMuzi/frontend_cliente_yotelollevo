@@ -1,15 +1,8 @@
-.list-direccion {
-  /* width: 100%; */
-  display: inline-block;
-  white-space: nowrap;
-  overflow: hidden;
-  font-size: 0.8rem;
-  text-overflow: ellipsis;
-  max-width: 200px;
-}
-
 .wrapper-list-direccion {
   margin: 0px;
+  padding: 0px;
+  height: 200px;
+  overflow-y: scroll;
 }
 
 .direccion-actual {
@@ -17,8 +10,19 @@
 }
 
 .addressrelatedwrapper {
-  width: 500px;
+  /* width: 500px; */
   font-size: 0.7rem;
   margin: 0 auto;
-  border: 1px solid;
+  /* border: 1px solid; */
+}
+
+.liDirecciones {
+  border-top: 0.5px solid var(--border-main);
+  display: flex;
+  justify-content: space-between;
+  padding: 4px;
+}
+
+.liDirecciones p {
+  padding: 0px 5px;
 }

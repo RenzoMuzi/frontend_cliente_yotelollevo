@@ -1,0 +1,28 @@
+.tableOrders table, .tableOrders th, .tableOrders td {
+  font-size: 0.7rem;
+  border-bottom: 0.5px solid var(--border-main);
+  border-collapse: collapse;
+}
+
+.tableOrders th, .tableOrders td {
+  padding: 15px;
+  text-align: left;
+}
+
+.tableOrders {
+  width: 100%;
+}
+
+.tableOrders ul {
+  padding: 0px
+}
+
+.tableOrders ul li {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ordenesWrapper {
+  width: 100%;
+  padding: 60px 25px;
+}

@@ -14,13 +14,14 @@
     opacity: 0.9;
 }
 
-.button, .button-normal {
+.button, .button-normal, .button-normal-small {
     background-color: var(--button-color-main);
 }
 
 .button:hover,
 .kep-login-facebook.metro:hover,
-.button-normal:hover {
+.button-normal:hover,
+.button-normal-small:hover {
     opacity: 1;
     box-shadow: 5px 5px 18px #888888;
 
@@ -38,6 +39,20 @@
     font-weight: 700;
     padding: 9px 10px;
     margin: 5px;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+    color: white;
+    cursor: pointer;
+    opacity: 0.9;
+}
+
+.button-normal-small {
+    border-radius: 3px !important;
+    font-size: 0.5rem;
+    font-family: 'Comfortaa', Arial, sans-serif;
+    font-weight: 700;
+    padding: 6px 7px;
     text-decoration: none;
     text-transform: uppercase;
     border: none;

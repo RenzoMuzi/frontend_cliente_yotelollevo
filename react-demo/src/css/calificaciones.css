@@ -1,0 +1,9 @@
+.ulCalificarProductos {
+  padding: 0px;
+}
+
+.liCalificarProductos {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
