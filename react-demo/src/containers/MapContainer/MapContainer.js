@@ -48,7 +48,7 @@ class MapContainer extends Component {
             position={{ lat: enterprise.Latitud, lng: enterprise.Longitud }}
             key={enterprise.Rut}
             icon={{
-              url: "src/assets/package.png",
+              url: "https://i.ibb.co/VxFw00t/package.png",
               anchor: new google.maps.Point(32, 32),
               scaledSize: new google.maps.Size(36, 36)
             }}

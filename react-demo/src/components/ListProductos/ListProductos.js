@@ -5,7 +5,7 @@ const ListProductos = ({ productos, verProducto, agregarAlCarrito, comprarProduc
     {productos.map(producto => (
       <div className="card-producto" key={producto.ObjectId}>
         <div className="wrapper-lista-productos-imagen">
-          <img src={producto.Imagenes} />
+          <img src={producto.Imagenes[0]} />
         </div>
         <div className="wrapper-lista-descripcion-producto">
           <h4>{producto.PropProducto.Nombre}</h4>
